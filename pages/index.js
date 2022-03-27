@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { attributes, react as HomeContent } from '../content/home.md';
 
-export default function() {
+export default function Knowledge() {
   const { title } = attributes
   return (
     <>
