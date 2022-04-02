@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { attributes, react as HomeContent } from '../content/home.md';
+import { attributes } from '../content/home.md';
 import {
   createStyles,
   AppShell,
