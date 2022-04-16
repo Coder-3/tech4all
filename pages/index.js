@@ -1,48 +1,111 @@
-import Head from "next/head"
-import { attributes } from '../content/home.md';
-import {
-  createStyles,
-  AppShell,
-  Header,
-  Navbar,
-  Burger,
-  MediaQuery,
-  Text,
-  Anchor
-} from '@mantine/core';
-import { useState } from 'react';
+import Head from "next/head";
+import { attributes } from "../content/home.md";
+import { createStyles, Image, Button } from "@mantine/core";
+
+const lighterOrange = "#E49759";
+const lighterBlue = "#59A6E4";
+const darkerOrange = "#DD7C2D";
+const darkerBlue = "#2D8EDD";
+const darkestBlue = "#1E73B9";
 
 const useStyles = createStyles((theme) => ({
-  navbar: {
+  hero: {
+    display: "flex",
+    gap: "40px",
+    marginTop: "60px",
+    marginBottom: "70px",
+    maxWidth: "1200px",
+    marginLeft: "auto",
+    marginRight: "auto",
+
+    [theme.fn.smallerThan("md")]: {
+      justifyContent: "center",
+      textAlign: "center",
+      overflowWrap: "break-word",
+      wordWrap: "break-word",
+      hyphens: "auto",
+      whiteSpace: "normal",
+    },
+
+    [theme.fn.smallerThan("lg")]: {
+      marginLeft: "24px",
+      marginRight: "24px",
+    },
+  },
+
+  halfWidth: {
     [theme.fn.largerThan("sm")]: {
-      display: "none"
-    }
+      width: "50%",
+    },
   },
 
-  navContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '100%',
-    margin: '0 20px'
+  heroHeading: {
+    fontSize: "4.5rem",
+    background: `-webkit-linear-gradient(${darkerOrange}, ${darkerBlue})`,
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    lineHeight: "70px",
+    margin: 0,
+
+    [theme.fn.smallerThan("md")]: {
+      fontSize: "3rem",
+      lineHeight: "60px",
+    },
   },
 
-  links: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    height: '100%',
-    gap: 20,
+  skills: {
+    display: "flex",
+    justifyContent: "center",
+
     [theme.fn.smallerThan("sm")]: {
-      display: "none"
-    }
-  }
+      marginLeft: "24px",
+      marginRight: "24px",
+    },
+  },
+
+  skillsHeading: {
+    maxWidth: "800px",
+    h2: {
+      fontSize: "3.5rem",
+      textAlign: "center",
+      lineHeight: "50px",
+    },
+  },
+
+  joinUsButton: {
+    width: "336px",
+    height: "auto",
+    minHeight: "30px",
+    color: "white",
+    border: 0,
+    borderRadius: "12px",
+    letterSpacing: "2px",
+    textTransform: "uppercase",
+    padding: "15px 30px",
+    backgroundColor: darkerBlue,
+    marginTop: "15px",
+
+    "&:hover": {
+      backgroundColor: darkestBlue,
+    },
+  },
+
+  image: {
+    [theme.fn.smallerThan("md")]: {
+      display: "none",
+    },
+
+    img: {
+      borderRadius: "24px",
+    },
+  },
+
+  skillsList: {},
 }));
 
 export default function Knowledge() {
-  const { classes } = useStyles()
-  const [opened, setOpened] = useState(false)
-  const { content, title } = attributes
+  const { classes } = useStyles();
+  const { content, title } = attributes;
 
   return (
     <>
@@ -50,50 +113,27 @@ export default function Knowledge() {
         <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
         <title>{title}</title>
       </Head>
-      <AppShell
-        fixed
-        navbarOffsetBreakpoint="sm"
-        header={
-          <Header height={50}>
-            <div className={classes.navContainer}>
-              <div>
-                <Text variant="h2">techforall</Text>
-              </div>
-              <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-                <Burger
-                  opened={opened}
-                  onClick={() => setOpened((o) => !o)}
-                  size="sm"
-                  mr="xl"
-                />
-              </MediaQuery>
-              <div className={classes.links}>
-                <Anchor>Vision</Anchor>
-                <Anchor>Learn</Anchor>
-                <Anchor>Blog</Anchor>
-                <Anchor>About</Anchor>
-              </div>
-            </div>
-          </Header>
-        }
-        navbar={
-          <Navbar
-            className={classes.navbar}
-            width={{ base: "100%", sm: 0 }}
-            hidden={!opened}
+      <section className={classes.hero}>
+        <div className={classes.halfWidth}>
+          <h1 className={classes.heroHeading}>{content[0].heading}</h1>
+          <p style={{ marginTop: "30px" }}>{content[0].subheading}</p>
+          <Button
+            className={`${classes.joinUsButton} ${classes.joinUsButtonBurger}`}
+            variant="primary"
           >
-            <Anchor>Vision</Anchor>
-            <Anchor>Learn</Anchor>
-            <Anchor>Blog</Anchor>
-            <Anchor>About</Anchor>
-          </Navbar>
-        }
-      >
-        <article>
-          <h1>{content[0].heading}</h1>
-          <h2>{content[0].subheading}</h2>
-        </article>
-      </AppShell>
+            Join Us
+          </Button>
+        </div>
+        <div className={`${classes.halfWidth} ${classes.image}`}>
+          <Image src="images/people_learning.jpg" />
+        </div>
+      </section>
+      <section className={classes.skills}>
+        <div className={classes.skillsHeading}>
+          <h2>{content[0].skillsHeading}</h2>
+        </div>
+        <div className={classes.skillsList}></div>
+      </section>
     </>
-  )
+  );
 }
