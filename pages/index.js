@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { attributes } from "../content/home.md";
 import { createStyles, Image, Button } from "@mantine/core";
+import WhatWeOffer from "../components/WhatWeOffer";
 
 const lighterOrange = "#E49759";
 const lighterBlue = "#59A6E4";
@@ -128,12 +129,7 @@ export default function Knowledge() {
           <Image src="images/people_learning.jpg" />
         </div>
       </section>
-      <section className={classes.skills}>
-        <div className={classes.skillsHeading}>
-          <h2>{content[0].skillsHeading}</h2>
-        </div>
-        <div className={classes.skillsList}></div>
-      </section>
+      <WhatWeOffer />
     </>
   );
 }
