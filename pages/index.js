@@ -2,6 +2,8 @@ import Head from "next/head";
 import { attributes } from "../content/home.md";
 import { createStyles, Image, Button } from "@mantine/core";
 import WhatWeOffer from "../components/WhatWeOffer";
+import CoursesOverview from "../components/CoursesOverview";
+import FooterComponent from "../components/FooterComponent";
 
 const lighterOrange = "#E49759";
 const lighterBlue = "#59A6E4";
@@ -130,6 +132,8 @@ export default function Knowledge() {
         </div>
       </section>
       <WhatWeOffer />
+      <CoursesOverview />
+      <FooterComponent />
     </>
   );
 }

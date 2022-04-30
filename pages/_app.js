@@ -24,7 +24,7 @@ export default function App(props) {
         }}
       >
         <Navigation>
-          <Component {...pageProps} />
+          <Component {...pageProps} style={{ background: 'url("../images/noise.png")' }} />
         </Navigation>
       </MantineProvider>
     </>
