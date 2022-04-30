@@ -54,7 +54,7 @@ const useStyles = createStyles((theme) => ({
   },
   skillsList: {
     listStyle: "none",
-    margin: "0px",
+    margin: "0",
     padding: "0",
 
   },
