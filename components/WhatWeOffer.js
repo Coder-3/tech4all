@@ -89,8 +89,8 @@ const WhatWeOffer = () => {
           </ul>
         </section>
 
-        <section class={classes.rightSection}>
-          <img class={classes.rightImage} src="images/people_learning.jpg"></img>
+        <section className={classes.rightSection}>
+          <img className={classes.rightImage} src="images/people_learning.jpg"></img>
         </section>
       </section>
     </section>
