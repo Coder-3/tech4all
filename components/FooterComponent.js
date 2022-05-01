@@ -1,5 +1,6 @@
-import { createStyles, keyframes } from "@mantine/core";
-import { Footer, Button } from "@mantine/core";
+import { createStyles } from "@mantine/core";
+import { Button } from "@mantine/core";
+import Link from "next/link";
 
 const lighterOrange = "#E49759";
 const lighterBlue = "#59A6E4";
@@ -7,25 +8,66 @@ const darkerOrange = "#DD7C2D";
 const darkerBlue = "#2D8EDD";
 const darkestBlue = "#1E73B9";
 
-// export const gradient = keyframes({
-//   "0%":   { transform: 'translate(0, -50%)' },
-//   "50%":  { transform: 'translate(-75%, 0)' },
-//   "100%": { transform: 'translate(0, -50%)' },
-// });
-
 const useStyles = createStyles((theme) => ({
   footerContainer: {
+    width: "100%",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "50px",
+    paddingBottom: 0,
+    marginTop: "100px",
+    backgroundColor: darkerOrange,
   },
 
   logoCta: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    width: "100%",
+    maxWidth: "1200px",
+    borderBottom: `1px solid ${lighterOrange}`,
+
+    "& p": {
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+      color: "white",
+    },
+
+    [theme.fn.smallerThan("sm")]: {
+      flexDirection: "column",
+      justifyContent: "center",
+      textAlign: "center",
+      gap: "10px",
+      borderBottom: "none",
+
+      "& p": {
+        margin: 0,
+      },
+    },
   },
 
-  row: {
-    display: "flex",
+  links: {
+    marginTop: "24px",
+
+    "& a": {
+      color: "white",
+      textDecoration: "none",
+      fontSize: "1.2rem",
+      fontWeight: "bold",
+      margin: "10px",
+      "&:hover": {
+        textDecoration: "underline",
+      },
+    },
+
+    [theme.fn.smallerThan("sm")]: {
+      marginTop: "30px",
+    },
+  },
+
+  copyright: {
+    marginTop: "60px",
+    color: "white",
   },
 
   joinUsButton: {
@@ -45,28 +87,15 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: darkestBlue,
     },
   },
-
-  // container: {
-  //   width: "100vw",
-  //   height: "100vh",
-  //   overflow: "hidden",
-  // },
-  
-  // bg: { 
-  //   width: "400%",
-  //   height: "400%",
-  //   background: "linear-gradient(0.33turn, #f6a192, #ffd9df, #f6c492, #f6a192)",
-  //   backgroundSize: "100% 100%",
-  //   animation: `${gradient} 12s ease infinite`,
-  // },
-
 }));
 
 const FooterComponent = () => {
   const { classes } = useStyles();
 
+  const currentYear = new Date().getFullYear();
+
   return (
-    <Footer className={`${classes.footerContainer} ${classes.container}`}>
+    <footer className={classes.footerContainer}>
       <div className={`${classes.logoCta} ${classes.bg}`}>
         <div>
           <p>Tech4All</p>
@@ -80,10 +109,17 @@ const FooterComponent = () => {
             </Button>
         </div>
       </div>
-      <div className={classes.row}>
-
+      <div className={classes.links}>
+        <Link href="/">Home</Link>
+        <Link href="/vision">Vision</Link>
+        <Link href="/learn">Learn</Link>
+        <Link href="/blog">Blog</Link>
+        <Link href="/about">About</Link>
       </div>
-    </Footer>
+      <div className={classes.copyright}>
+        <p>© {currentYear} Tech4All</p>
+      </div>
+    </footer>
   )
 }
 
