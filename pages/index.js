@@ -4,6 +4,7 @@ import { createStyles, Image, Button } from "@mantine/core";
 import WhatWeOffer from "../components/WhatWeOffer";
 import CoursesOverview from "../components/CoursesOverview";
 import FooterComponent from "../components/FooterComponent";
+import HowItWorks from "../components/HowItWorks";
 
 const lighterOrange = "#E49759";
 const lighterBlue = "#59A6E4";
@@ -133,6 +134,7 @@ export default function Knowledge() {
       </section>
       <WhatWeOffer />
       <CoursesOverview />
+      <HowItWorks />
       <FooterComponent />
     </>
   );
