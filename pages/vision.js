@@ -176,7 +176,19 @@ export default function About() {
           </h1>
           <div className={classes.coolLine} />
           <p className={classes.aboutUsText}>
-            We advocate successful sustainable practices that foster long-term acomplishments, rather than rapid, risky growth.
+            We advocate successful, sustainable growth that foster long-term acomplishments, rather than risky, rapid growth.
+            Unlike traditional startups that aim to recklessly expand, we acknowledge that incremental and planned growth reduces uneccessary risks and adds value to an organisation.
+          </p>
+        </div>
+
+        <div className={classes.sectionText}>
+          <h1 className={classes.reusableHeaders}>
+          Positive-sum, not zero-sum
+          </h1>
+          <div className={classes.coolLine} />
+          <p className={classes.aboutUsText}>
+          Information is omnipresent, knowledge should be free and solutions are endless. We recognise that software solutions can be constantly created as long as there are inconveniences within our professional and social lives. 
+          We equally support and encourage any founder with productive ideas or services, as we believe that any potential or existing founder can benefit from the collective value we add to the Tech4All community.
           </p>
         </div>
 
