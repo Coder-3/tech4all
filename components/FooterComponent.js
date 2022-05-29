@@ -70,23 +70,7 @@ const useStyles = createStyles((theme) => ({
     color: "white",
   },
 
-  joinUsButton: {
-    width: "336px",
-    height: "auto",
-    minHeight: "30px",
-    color: "white",
-    border: 0,
-    borderRadius: "12px",
-    letterSpacing: "2px",
-    textTransform: "uppercase",
-    padding: "15px 30px",
-    backgroundColor: darkerBlue,
-    marginTop: "15px",
-
-    "&:hover": {
-      backgroundColor: darkestBlue,
-    },
-  },
+  joinUsButton: theme.joinUsButton,
 }));
 
 const FooterComponent = () => {
