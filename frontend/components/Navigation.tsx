@@ -13,12 +13,6 @@ import {
 
 import { ReactElement, useState } from "react";
 
-const lighterOrange = "#E49759";
-const lighterBlue = "#59A6E4";
-const darkerOrange = "#DD7C2D";
-const darkerBlue = "#2D8EDD";
-const darkestBlue = "#1E73B9";
-
 const useStyles = createStyles((theme) => ({
   navBurger: {
     display: "flex",
@@ -51,7 +45,7 @@ const useStyles = createStyles((theme) => ({
       textDecoration: "none",
 
       "&:hover": {
-        color: darkerBlue,
+        color: theme.colors["dark-blue"][6],
       },
     },
 
@@ -83,11 +77,6 @@ const useStyles = createStyles((theme) => ({
     letterSpacing: "2px",
     textTransform: "uppercase",
     padding: "15px 30px",
-    backgroundColor: darkerBlue,
-
-    "&:hover": {
-      backgroundColor: darkestBlue,
-    },
   },
 
   joinUsButtonDesktop: {
@@ -133,7 +122,7 @@ const Navigation = ({ children }: { children: ReactElement }) => {
               <Link href="/about">About</Link>
             </div>
             <div className={classes.joinUsButtonDesktop}>
-              <Button className={classes.joinUsButton}>Join Us</Button>
+              <Button color="dark-blue" className={classes.joinUsButton}>Join Us</Button>
             </div>
           </div>
         </Header>
@@ -145,6 +134,7 @@ const Navigation = ({ children }: { children: ReactElement }) => {
           hidden={!opened}
         >
           <Button
+            color="dark-blue"
             className={`${classes.joinUsButton} ${classes.joinUsButtonBurger}`}
           >
             Join Us

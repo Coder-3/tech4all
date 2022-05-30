@@ -2,12 +2,6 @@ import { createStyles } from "@mantine/core";
 import { Button } from "@mantine/core";
 import Link from "next/link";
 
-const lighterOrange = "#E49759";
-const lighterBlue = "#59A6E4";
-const darkerOrange = "#DD7C2D";
-const darkerBlue = "#2D8EDD";
-const darkestBlue = "#1E73B9";
-
 const useStyles = createStyles((theme) => ({
   footerContainer: {
     width: "100%",
@@ -17,7 +11,7 @@ const useStyles = createStyles((theme) => ({
     padding: "50px",
     paddingBottom: 0,
     marginTop: "100px",
-    backgroundColor: darkerOrange,
+    backgroundColor: theme.colors["dark-orange"][6],
   },
 
   logoCta: {
@@ -25,7 +19,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "space-between",
     width: "100%",
     maxWidth: "1200px",
-    borderBottom: `1px solid ${lighterOrange}`,
+    borderBottom: `1px solid ${theme.colors["light-orange"][4]}`,
 
     "& p": {
       fontSize: "1.5rem",
@@ -80,12 +74,7 @@ const useStyles = createStyles((theme) => ({
     letterSpacing: "2px",
     textTransform: "uppercase",
     padding: "15px 30px",
-    backgroundColor: darkerBlue,
     marginTop: "15px",
-
-    "&:hover": {
-      backgroundColor: darkestBlue,
-    },
   },
 }));
 
@@ -101,7 +90,9 @@ const FooterComponent = () => {
           <p>Tech4All</p>
         </div>
         <div>
-          <Button className={classes.joinUsButton}>Join Us</Button>
+          <Button color="dark-blue" className={classes.joinUsButton}>
+            Join Us
+          </Button>
         </div>
       </div>
       <div className={classes.links}>

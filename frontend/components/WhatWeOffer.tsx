@@ -3,12 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { Image } from "@mantine/core";
 
-const lighterOrange = "#E49759";
-const lighterBlue = "#59A6E4";
-const darkerOrange = "#DD7C2D";
-const darkerBlue = "#2D8EDD";
-const darkestBlue = "#1E73B9";
-
 const useStyles = createStyles((theme) => ({
   heading: {
     fontSize: "3.5rem",
@@ -64,7 +58,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   checkIcon: {
-    color: lighterBlue,
+    color: theme.colors["light-blue"][4],
   },
 }));
 

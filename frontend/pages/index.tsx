@@ -7,12 +7,6 @@ import CoursesOverview from "../components/CoursesOverview";
 import FooterComponent from "../components/FooterComponent";
 import HowItWorks from "../components/HowItWorks";
 
-const lighterOrange = "#E49759";
-const lighterBlue = "#59A6E4";
-const darkerOrange = "#DD7C2D";
-const darkerBlue = "#2D8EDD";
-const darkestBlue = "#1E73B9";
-
 const useStyles = createStyles((theme) => ({
   hero: {
     display: "flex",
@@ -46,7 +40,7 @@ const useStyles = createStyles((theme) => ({
 
   heroHeading: {
     fontSize: "4.5rem",
-    background: `-webkit-linear-gradient(${darkerOrange}, ${darkerBlue})`,
+    background: `-webkit-linear-gradient(${theme.colors["dark-orange"][6]}, ${theme.colors["dark-blue"][6]})`,
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     lineHeight: "70px",
@@ -87,12 +81,7 @@ const useStyles = createStyles((theme) => ({
     letterSpacing: "2px",
     textTransform: "uppercase",
     padding: "15px 30px",
-    backgroundColor: darkerBlue,
     marginTop: "15px",
-
-    "&:hover": {
-      backgroundColor: darkestBlue,
-    },
   },
 
   image: {
@@ -124,7 +113,9 @@ const Home: NextPage = () => {
             Providing opportunities to competent and motivated individuals,
             giving them a better chance at achieving success in lif
           </p>
-          <Button className={classes.joinUsButton}>Join Us</Button>
+          <Button color="dark-blue" className={classes.joinUsButton}>
+            Join Us
+          </Button>
         </div>
         <div className={`${classes.halfWidth} ${classes.image}`}>
           <Image
