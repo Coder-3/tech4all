@@ -30,15 +30,13 @@ const useStyles = createStyles((theme) => ({
       margin: "auto",
     },
   },
-
-
-}))
+}));
 
 const CoursesOverview = () => {
   const { classes } = useStyles();
   return (
     <section className={classes.coursesSection}>
-        <h2 className={classes.heading}>Courses</h2>
+      <h2 className={classes.heading}>Courses</h2>
       <div className={classes.coursesContainer}>
         <Course
           image="images/people_learning.jpg"

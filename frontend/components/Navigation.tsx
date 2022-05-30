@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mantine/core";
 
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 
 const lighterOrange = "#E49759";
 const lighterBlue = "#59A6E4";
@@ -33,7 +33,6 @@ const useStyles = createStyles((theme) => ({
       fontSize: "1.2rem",
       textDecoration: "none",
       margin: "0 10px",
-      color: "black",
     },
   },
 
@@ -106,7 +105,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Navigation = ({ children }) => {
+const Navigation = ({ children }: { children: ReactElement }) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
 
@@ -114,12 +113,11 @@ const Navigation = ({ children }) => {
     <AppShell
       fixed
       navbarOffsetBreakpoint="sm"
-      padding="0"
       header={
         <Header height={100}>
           <div className={classes.navContainer}>
             <div className={classes.logo}>
-              <Text variant="h2">Tech4All</Text>
+              <Text>Tech4All</Text>
             </div>
             <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
@@ -135,9 +133,7 @@ const Navigation = ({ children }) => {
               <Link href="/about">About</Link>
             </div>
             <div className={classes.joinUsButtonDesktop}>
-              <Button variant="primary" className={classes.joinUsButton}>
-                Join Us
-              </Button>
+              <Button className={classes.joinUsButton}>Join Us</Button>
             </div>
           </div>
         </Header>
@@ -150,7 +146,6 @@ const Navigation = ({ children }) => {
         >
           <Button
             className={`${classes.joinUsButton} ${classes.joinUsButtonBurger}`}
-            variant="primary"
           >
             Join Us
           </Button>

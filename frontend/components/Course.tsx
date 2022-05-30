@@ -54,12 +54,20 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Course = ({ image, name, description, skills, link }) => {
+interface CourseProps {
+  image: string;
+  name: string;
+  description: string;
+  skills: string[];
+  link: string;
+}
+
+const Course = ({ image, name, description, skills, link }: CourseProps) => {
   const { classes } = useStyles();
 
   return (
     <div className={classes.courseContainer}>
-      <Image src={image} />
+      <Image src={image} alt="" />
       <div className={classes.row}>
         <h3>{name}</h3>
         <p>{description}</p>
@@ -73,9 +81,7 @@ const Course = ({ image, name, description, skills, link }) => {
         </ul>
       </div>
       <div className={`${classes.row} ${classes.buttonContainer}`}>
-        <Button className={classes.learnMoreButton} variant="primary">
-          Learn More
-        </Button>
+        <Button className={classes.learnMoreButton}>Learn More</Button>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
+import type { NextPage } from "next";
 import Head from "next/head";
-import { attributes } from "../content/home.md";
+
 import { createStyles, Image, Button } from "@mantine/core";
 import WhatWeOffer from "../components/WhatWeOffer";
 import CoursesOverview from "../components/CoursesOverview";
@@ -107,29 +108,29 @@ const useStyles = createStyles((theme) => ({
   skillsList: {},
 }));
 
-export default function Knowledge() {
+const Home: NextPage = () => {
   const { classes } = useStyles();
-  const { content, title } = attributes;
-
   return (
     <>
       <Head>
-        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-        <title>{title}</title>
+        <title>Tech4All</title>
       </Head>
       <section className={classes.hero}>
         <div className={classes.halfWidth}>
-          <h1 className={classes.heroHeading}>{content[0].heading}</h1>
-          <p style={{ marginTop: "30px" }}>{content[0].subheading}</p>
-          <Button
-            className={`${classes.joinUsButton} ${classes.joinUsButtonBurger}`}
-            variant="primary"
-          >
-            Join Us
-          </Button>
+          <h1 className={classes.heroHeading}>
+            Empowering you to launch a software product
+          </h1>
+          <p style={{ marginTop: "30px" }}>
+            Providing opportunities to competent and motivated individuals,
+            giving them a better chance at achieving success in lif
+          </p>
+          <Button className={classes.joinUsButton}>Join Us</Button>
         </div>
         <div className={`${classes.halfWidth} ${classes.image}`}>
-          <Image src="images/people_learning.jpg" />
+          <Image
+            src="images/people_learning.jpg"
+            alt="Group of people learning"
+          />
         </div>
       </section>
       <WhatWeOffer />
@@ -138,4 +139,6 @@ export default function Knowledge() {
       <FooterComponent />
     </>
   );
-}
+};
+
+export default Home;

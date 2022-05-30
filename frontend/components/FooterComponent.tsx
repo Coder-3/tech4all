@@ -96,17 +96,12 @@ const FooterComponent = () => {
 
   return (
     <footer className={classes.footerContainer}>
-      <div className={`${classes.logoCta} ${classes.bg}`}>
+      <div className={classes.logoCta}>
         <div>
           <p>Tech4All</p>
         </div>
         <div>
-          <Button
-              className={classes.joinUsButton}
-              variant="primary"
-            >
-              Join Us
-            </Button>
+          <Button className={classes.joinUsButton}>Join Us</Button>
         </div>
       </div>
       <div className={classes.links}>
@@ -120,7 +115,7 @@ const FooterComponent = () => {
         <p>© {currentYear} Tech4All</p>
       </div>
     </footer>
-  )
-}
+  );
+};
 
 export default FooterComponent;
