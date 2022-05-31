@@ -1,5 +1,0 @@
-django
-djangorestframework
-pyyaml
-django-cors-headers
-django-model-utils
