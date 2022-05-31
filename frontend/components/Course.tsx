@@ -1,5 +1,4 @@
 import { Button, createStyles, Image } from "@mantine/core";
-// import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   courseContainer: {
@@ -55,7 +54,7 @@ const Course = ({ image, name, description, skills, link }: CourseProps) => {
   const { classes } = useStyles();
 
   return (
-    <div className={classes.courseContainer}>
+    <section className={classes.courseContainer}>
       <Image src={image} alt="" />
       <div className={classes.row}>
         <h3>{name}</h3>
@@ -70,9 +69,11 @@ const Course = ({ image, name, description, skills, link }: CourseProps) => {
         </ul>
       </div>
       <div className={`${classes.row} ${classes.buttonContainer}`}>
-        <Button color="dark-blue" className={classes.learnMoreButton}>Learn More</Button>
+        <Button color="dark-blue" className={classes.learnMoreButton}>
+          Learn More
+        </Button>
       </div>
-    </div>
+    </section>
   );
 };
 
