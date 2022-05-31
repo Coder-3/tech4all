@@ -1,10 +1,4 @@
-import { createStyles } from "@mantine/core";
-
-const lighterOrange = "#E49759";
-const lighterBlue = "#59A6E4";
-const darkerOrange = "#DD7C2D";
-const darkerBlue = "#2D8EDD";
-const darkestBlue = "#1E73B9";
+import { createStyles, useMantineTheme } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   heading: {
@@ -49,23 +43,25 @@ const useStyles = createStyles((theme) => ({
 
 const HowItWorks = () => {
   const { classes } = useStyles();
+  const theme = useMantineTheme();
+
   return (
     <section>
       <h2 className={classes.heading}>How it works</h2>
       <div className={classes.stepsContainer}>
-        <div style={{ backgroundColor: lighterOrange }}>
+        <div style={{ backgroundColor: theme.colors["light-orange"][4] }}>
           <p>Complete courses to learn from scratch</p>
         </div>
-        <div style={{ backgroundColor: darkerOrange }}>
+        <div style={{ backgroundColor: theme.colors["dark-orange"][6] }}>
           <p>Think of an idea that solves problem</p>
         </div>
-        <div style={{ backgroundColor: lighterBlue }}>
+        <div style={{ backgroundColor: theme.colors["light-blue"][4] }}>
           <p>Apply to join us and pass our entrance test</p>
         </div>
-        <div style={{ backgroundColor: darkerBlue }}>
+        <div style={{ backgroundColor: theme.colors["dark-blue"][6] }}>
           <p>Pitch us your idea as a team or an individual</p>
         </div>
-        <div style={{ backgroundColor: darkestBlue }}>
+        <div style={{ backgroundColor: theme.colors["darkest-blue"][6] }}>
           <p>Once qualified, get funding and support while you build</p>
         </div>
       </div>

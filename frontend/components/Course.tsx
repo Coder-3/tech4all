@@ -1,11 +1,4 @@
 import { Button, createStyles, Image } from "@mantine/core";
-import Link from "next/link";
-
-const lighterOrange = "#E49759";
-const lighterBlue = "#59A6E4";
-const darkerOrange = "#DD7C2D";
-const darkerBlue = "#2D8EDD";
-const darkestBlue = "#1E73B9";
 
 const useStyles = createStyles((theme) => ({
   courseContainer: {
@@ -45,12 +38,7 @@ const useStyles = createStyles((theme) => ({
     letterSpacing: "2px",
     textTransform: "uppercase",
     padding: "15px 30px",
-    backgroundColor: darkerBlue,
     marginTop: "15px",
-
-    "&:hover": {
-      backgroundColor: darkestBlue,
-    },
   },
 }));
 
@@ -66,7 +54,7 @@ const Course = ({ image, name, description, skills, link }: CourseProps) => {
   const { classes } = useStyles();
 
   return (
-    <div className={classes.courseContainer}>
+    <section className={classes.courseContainer}>
       <Image src={image} alt="" />
       <div className={classes.row}>
         <h3>{name}</h3>
@@ -81,9 +69,11 @@ const Course = ({ image, name, description, skills, link }: CourseProps) => {
         </ul>
       </div>
       <div className={`${classes.row} ${classes.buttonContainer}`}>
-        <Button className={classes.learnMoreButton}>Learn More</Button>
+        <Button color="dark-blue" className={classes.learnMoreButton}>
+          Learn More
+        </Button>
       </div>
-    </div>
+    </section>
   );
 };
 

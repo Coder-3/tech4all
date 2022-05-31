@@ -34,6 +34,7 @@ const useStyles = createStyles((theme) => ({
 
 const CoursesOverview = () => {
   const { classes } = useStyles();
+
   return (
     <section className={classes.coursesSection}>
       <h2 className={classes.heading}>Courses</h2>
