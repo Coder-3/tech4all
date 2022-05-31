@@ -15,17 +15,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <Global
         styles={(theme) => ({
-          joinUsButton: {
-            width: "200px",
-            height: "auto",
-            minHeight: "30px",
-            color: "white",
-            border: 0,
-            borderRadius: "12px",
-            letterSpacing: "2px",
-            textTransform: "uppercase",
-            padding: "15px 30px",
-          },
           html: {
             boxSizing: "border-box",
           },
