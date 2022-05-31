@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { MantineProvider } from "@mantine/core";
+import { Global, MantineProvider } from "@mantine/core";
 import Navigation from "../components/Navigation";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -13,6 +13,36 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+      <Global
+        styles={(theme) => ({
+          joinUsButton: {
+            width: "200px",
+            height: "auto",
+            minHeight: "30px",
+            color: "white",
+            border: 0,
+            borderRadius: "12px",
+            letterSpacing: "2px",
+            textTransform: "uppercase",
+            padding: "15px 30px",
+          },
+          html: {
+            boxSizing: "border-box",
+          },
+          body: {
+            minHeight: "100%",
+            margin: 0,
+          },
+          main: {
+            paddingRight: "0 !important",
+            paddingLeft: "0 !important",
+            paddingBottom: "0 !important",
+          },
+          "*, *::before, *::after": {
+            boxSizing: "border-box",
+          },
+        })}
+      />
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
