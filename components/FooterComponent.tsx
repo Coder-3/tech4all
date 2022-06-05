@@ -90,9 +90,15 @@ const FooterComponent = () => {
           <p>Tech4All</p>
         </div>
         <div>
-          <Button color="dark-blue" className={classes.joinUsButton}>
-            Join Us
-          </Button>
+          <Link href="/login" passHref>
+            <Button
+              component="a"
+              color="dark-blue"
+              className={classes.joinUsButton}
+            >
+              Join Us
+            </Button>
+          </Link>
         </div>
       </div>
       <div className={classes.links}>
