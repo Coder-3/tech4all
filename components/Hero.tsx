@@ -1,5 +1,6 @@
 import { createStyles } from "@mantine/core";
 import { Button, Image } from "@mantine/core";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   hero: {
@@ -82,9 +83,15 @@ const Hero = () => {
           Providing opportunities to competent and motivated individuals, giving
           them a better chance at achieving success in lif
         </p>
-        <Button color="dark-blue" className={classes.joinUsButton}>
-          Join Us
-        </Button>
+        <Link href="/login" passHref>
+          <Button
+            component="a"
+            color="dark-blue"
+            className={classes.joinUsButton}
+          >
+            Join Us
+          </Button>
+        </Link>
       </div>
       <div className={`${classes.halfWidth} ${classes.image}`}>
         <Image

@@ -79,6 +79,10 @@ const useStyles = createStyles((theme) => ({
     letterSpacing: "2px",
     textTransform: "uppercase",
     padding: "15px 30px",
+
+    span: {
+      color: "white",
+    },
   },
 
   joinUsButtonDesktop: {
@@ -222,9 +226,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   <Link href="/about">About</Link>
                 </div>
                 <div className={classes.joinUsButtonDesktop}>
-                  <Button color="dark-blue" className={classes.joinUsButton}>
-                    Join Us
-                  </Button>
+                  <Link href="/login" passHref>
+                    <Button
+                      component="a"
+                      color="dark-blue"
+                      className={classes.joinUsButton}
+                    >
+                      Join Us
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Header>
@@ -235,12 +245,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               width={{ base: "100%", md: 0 }}
               hidden={!opened}
             >
-              <Button
-                color="dark-blue"
-                className={`${classes.joinUsButton} ${classes.joinUsButtonBurger}`}
-              >
-                Join Us
-              </Button>
+              <Link href="/login" passHref>
+                <Button
+                  component="a"
+                  color="dark-blue"
+                  className={classes.joinUsButton}
+                >
+                  Join Us
+                </Button>
+              </Link>
               <Link href="/vision">Vision</Link>
               <Link href="/learn">Learn</Link>
               <Link href="/blog">Blog</Link>
