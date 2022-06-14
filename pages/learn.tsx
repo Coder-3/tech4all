@@ -8,24 +8,53 @@ import Module from "../components/Module";
 import supabase from "../utils/supabase";
 
 export const getServerSideProps = async () => {
-  const { data: lessons, error } = await supabase.from("lessons").select("*");
-  const { data: modules, error: error2 } = await supabase
+  const { data: lessons, error: e1 } = await supabase
+    .from("lessons")
+    .select("*");
+  const { data: modules, error: e2 } = await supabase
     .from("modules")
     .select("*");
 
+    const lessonsAndThumbnails = lessons?.map((lesson) => {
+      const { publicURL, error: e3 } = supabase.storage
+      .from("images")
+      .getPublicUrl(lesson.thumbnail);
+      return {
+        lesson,
+        thumbnailURL: publicURL,
+      };
+    });
+
+    const { data: lessons_users, error: e4 } = await supabase.from("lessons_users").select("*");
+
   return {
     props: {
-      lessons,
+      lessonsAndThumbnails,
+      modules,
     },
   };
 };
 
 interface Props {
-  lessons: Array<any>;
+  lessonsAndThumbnails: Array<any>;
+  modules: Array<any>;
 }
 
-const Learn: NextPage<Props> = ({ lessons }) => {
-  console.log(lessons);
+const Learn: NextPage<Props> = ({ lessonsAndThumbnails, modules }) => {
+  
+  const toggleCompleted = async (lessonId: string) => {
+    const user = supabase.auth.user();
+    if (user) {
+      // TODO: error handle this
+      await supabase.from("lessons_users").insert({
+        lesson_id: lessonId,
+        user_id: user.id,
+      })
+    } else {
+      console.error('TODO: handle not logged in user')
+    }
+  }
+
   return (
     <>
       <Head>
@@ -33,7 +62,7 @@ const Learn: NextPage<Props> = ({ lessons }) => {
       </Head>
       <AppShell
         navbar={
-          <Navbar width={{ base: 300 }} height={500}>
+          <Navbar width={{ base: 200 }} height={500}>
             <Navbar.Section p={20}>
               <Stack>
                 <Link href="/profile">My Profile</Link>
@@ -51,21 +80,26 @@ const Learn: NextPage<Props> = ({ lessons }) => {
           },
         })}
       >
-        <Module title="Module 1" />
-        <Lesson
-          title="Lesson 1"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          source="Tech Teacher via YouTube"
-          url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          is_completed={true}
-        />
-        <Lesson
-          title="Lesson 1"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          source="Tech Teacher via YouTube"
-          url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          is_completed={false}
-        />
+        {modules?.map((module) => (
+          <div key={`outer-div-${module.id}`}>
+            <Module key={`module-${module.id}`} title={module.title} />
+            {lessonsAndThumbnails?.map(
+              (lessonAndThumbnail) =>
+                lessonAndThumbnail.lesson.module_id === module.id && (
+                  <Lesson
+                    key={`lesson-${lessonAndThumbnail.lesson.id}`}
+                    title={lessonAndThumbnail.lesson.title}
+                    description={lessonAndThumbnail.lesson.description}
+                    source={lessonAndThumbnail.lesson.source}
+                    url={lessonAndThumbnail.lesson.url}
+                    thumbnailURL={lessonAndThumbnail.thumbnailURL}
+                    // add is_completed to the backend using user ID
+                    is_completed={false}
+                  />
+                )
+            )}
+          </div>
+        ))}
       </AppShell>
     </>
   );
