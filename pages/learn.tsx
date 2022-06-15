@@ -1,4 +1,5 @@
 import { AppShell, Button, Header, Navbar, Stack, Title } from "@mantine/core";
+import { UpdateIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -15,22 +16,25 @@ export const getServerSideProps = async () => {
     .from("modules")
     .select("*");
 
-    const lessonsAndThumbnails = lessons?.map((lesson) => {
-      const { publicURL, error: e3 } = supabase.storage
+  const lessonsAndThumbnails = lessons?.map((lesson) => {
+    const { publicURL, error: e3 } = supabase.storage
       .from("images")
       .getPublicUrl(lesson.thumbnail);
-      return {
-        lesson,
-        thumbnailURL: publicURL,
-      };
-    });
+    return {
+      lesson,
+      thumbnailURL: publicURL,
+    };
+  });
 
-    const { data: lessons_users, error: e4 } = await supabase.from("lessons_users").select("*");
+  const { data: lessonsUsers, error: e4 } = await supabase
+    .from("lessons_users")
+    .select("*");
 
   return {
     props: {
       lessonsAndThumbnails,
       modules,
+      lessonsUsers,
     },
   };
 };
@@ -38,22 +42,64 @@ export const getServerSideProps = async () => {
 interface Props {
   lessonsAndThumbnails: Array<any>;
   modules: Array<any>;
+  lessonsUsers: Array<any>;
 }
 
-const Learn: NextPage<Props> = ({ lessonsAndThumbnails, modules }) => {
-  
-  const toggleCompleted = async (lessonId: string) => {
+const Learn: NextPage<Props> = ({
+  lessonsAndThumbnails,
+  modules,
+  lessonsUsers,
+}) => {
+  const user = supabase.auth.user();
+
+  if (user) {
+    const combinedLessons = lessonsAndThumbnails?.map((lesson) => {
+      return lessonsUsers.map((lessonUser) => {
+        if (
+          lessonUser.lesson_id === lesson.lesson.id &&
+          lessonUser.user_id === user.id
+        ) {
+          return {
+            ...lesson,
+            lesson: {
+              ...lesson.lesson,
+              is_completed: lessonUser.is_completed,
+            },
+          };
+        } else {
+          return lesson;
+        }
+      })[0];
+    });
+    console.log(combinedLessons);
+  }
+
+  const toggleCompleted = async (lessonId: number) => {
     const user = supabase.auth.user();
     if (user) {
-      // TODO: error handle this
-      await supabase.from("lessons_users").insert({
-        lesson_id: lessonId,
-        user_id: user.id,
-      })
+      const { data: existingLesson, error } = await supabase
+        .from("lessons_users")
+        .select("lesson_id, user_id, is_completed")
+        .eq("user_id", user.id)
+        .eq("lesson_id", lessonId);
+
+      if (existingLesson) {
+        await supabase
+          .from("lessons_users")
+          .update({ is_completed: !existingLesson[0].is_completed })
+          .match({ user_id: user.id })
+          .match({ lesson_id: lessonId });
+      } else {
+        await supabase.from("lessons_users").insert({
+          lesson_id: lessonId,
+          user_id: user.id,
+          is_completed: true,
+        });
+      }
     } else {
-      console.error('TODO: handle not logged in user')
+      console.error("TODO: handle not logged in user");
     }
-  }
+  };
 
   return (
     <>
@@ -93,11 +139,15 @@ const Learn: NextPage<Props> = ({ lessonsAndThumbnails, modules }) => {
                     source={lessonAndThumbnail.lesson.source}
                     url={lessonAndThumbnail.lesson.url}
                     thumbnailURL={lessonAndThumbnail.thumbnailURL}
+                    toggleCompleted={() =>
+                      toggleCompleted(lessonAndThumbnail.lesson.id)
+                    }
                     // add is_completed to the backend using user ID
                     is_completed={false}
                   />
                 )
             )}
+            <Button onClick={() => toggleCompleted(1)}>Toggle completed</Button>
           </div>
         ))}
       </AppShell>
