@@ -40,21 +40,21 @@ const CoursesOverview = () => {
       <h2 className={classes.heading}>Courses</h2>
       <div className={classes.coursesContainer}>
         <Course
-          image="images/people_learning.jpg"
+          image="images/fsCourse.jpg"
           name="Programming Course"
           description="Learn the coding skills you need to create a software product from scratch"
           skills={["HTML", "CSS", "JavaScript", "React", "Node.js"]}
           link="https://www.udemy.com/course/the-complete-web-developer-course-2/"
         />
         <Course
-          image="images/people_learning.jpg"
+          image="images/designCourse.jpg"
           name="Programming Course"
           description="Learn the coding skills you need to create a software product from scratch"
           skills={["HTML", "CSS", "JavaScript", "React", "Node.js"]}
           link="https://www.udemy.com/course/the-complete-web-developer-course-2/"
         />
         <Course
-          image="images/people_learning.jpg"
+          image="images/businessCourse.jpg"
           name="Programming Course"
           description="Learn the coding skills you need to create a software product from scratch"
           skills={["HTML", "CSS", "JavaScript", "React", "Node.js"]}

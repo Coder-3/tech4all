@@ -95,7 +95,7 @@ const Hero = () => {
       </div>
       <div className={`${classes.halfWidth} ${classes.image}`}>
         <Image
-          src="images/people_learning.jpg"
+          src="images/collaboration.jpg"
           alt="Group of people learning"
         />
       </div>

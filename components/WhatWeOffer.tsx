@@ -135,8 +135,9 @@ const WhatWeOffer = () => {
         <section className={classes.rightSection}>
           <Image
             className={classes.rightImage}
-            src="images/people_learning.jpg"
+            src="images/workingOnComputer.jpg"
             alt=""
+            width={500}
           />
         </section>
       </section>
