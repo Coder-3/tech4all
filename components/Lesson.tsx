@@ -58,10 +58,10 @@ interface Props {
   url: string;
   thumbnailURL: string;
   toggleCompleted: (lessonId: string) => void;
-  is_completed: boolean;
+  isCompleted: boolean;
 }
 
-const Lesson = ({ title, description, source, url, thumbnailURL, toggleCompleted, is_completed }: Props) => {
+const Lesson = ({ title, description, source, url, thumbnailURL, toggleCompleted, isCompleted }: Props) => {
   const { classes } = useStyles();
   return (
     <div className={classes.wrapper}>
@@ -91,7 +91,7 @@ const Lesson = ({ title, description, source, url, thumbnailURL, toggleCompleted
             </Grid.Col>
             <Grid.Col span={4}>
               <Center style={{ height: "100%" }}>
-                {is_completed ? (
+                {isCompleted ? (
                   <Button style={{ zIndex: "-1" }} onClick={() => toggleCompleted} color="green">
                     <CheckCircledIcon />
                     <Space w="sm" />

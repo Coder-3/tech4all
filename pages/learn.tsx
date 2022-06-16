@@ -3,7 +3,7 @@ import { UpdateIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Lesson from "../components/Lesson";
 import Module from "../components/Module";
 import supabase from "../utils/supabase";
@@ -51,28 +51,49 @@ const Learn: NextPage<Props> = ({
   lessonsUsers,
 }) => {
   const user = supabase.auth.user();
+  const [lessons, setLessons] = useState([]);
 
-  if (user) {
-    const combinedLessons = lessonsAndThumbnails?.map((lesson) => {
-      return lessonsUsers.map((lessonUser) => {
-        if (
-          lessonUser.lesson_id === lesson.lesson.id &&
-          lessonUser.user_id === user.id
-        ) {
-          return {
-            ...lesson,
-            lesson: {
-              ...lesson.lesson,
-              is_completed: lessonUser.is_completed,
-            },
-          };
-        } else {
-          return lesson;
-        }
-      })[0];
-    });
-    console.log(combinedLessons);
-  }
+  useEffect(() => {
+    let formattedLessons = []
+    if (user) {
+      formattedLessons = lessonsAndThumbnails?.map((lesson) => {
+        return lessonsUsers.map((lessonUser) => {
+          if (
+            lessonUser.lesson_id === lesson.lesson.id &&
+            lessonUser.user_id === user.id
+          ) {
+            return {
+              ...lesson,
+              lesson: {
+                ...lesson.lesson,
+                is_completed: lessonUser.is_completed,
+              },
+            };
+          } else {
+            return {
+              ...lesson,
+              lesson: {
+                ...lesson.lesson,
+                is_completed: false,
+              },
+            };
+          }
+        })[0];
+      });
+    } else {
+      return [];
+    }
+    setLessons(formattedLessons);
+  }, [lessonsUsers, lessonsAndThumbnails, user]);
+
+  const formatLessons = () => {
+    if (user) {
+      return 
+    } else {
+      // TODO: Handle not logged in user
+      return [];
+    }
+  };
 
   const toggleCompleted = async (lessonId: number) => {
     const user = supabase.auth.user();
@@ -126,30 +147,8 @@ const Learn: NextPage<Props> = ({
           },
         })}
       >
-        {modules?.map((module) => (
-          <div key={`outer-div-${module.id}`}>
-            <Module key={`module-${module.id}`} title={module.title} />
-            {lessonsAndThumbnails?.map(
-              (lessonAndThumbnail) =>
-                lessonAndThumbnail.lesson.module_id === module.id && (
-                  <Lesson
-                    key={`lesson-${lessonAndThumbnail.lesson.id}`}
-                    title={lessonAndThumbnail.lesson.title}
-                    description={lessonAndThumbnail.lesson.description}
-                    source={lessonAndThumbnail.lesson.source}
-                    url={lessonAndThumbnail.lesson.url}
-                    thumbnailURL={lessonAndThumbnail.thumbnailURL}
-                    toggleCompleted={() =>
-                      toggleCompleted(lessonAndThumbnail.lesson.id)
-                    }
-                    // add is_completed to the backend using user ID
-                    is_completed={false}
-                  />
-                )
-            )}
-            <Button onClick={() => toggleCompleted(1)}>Toggle completed</Button>
-          </div>
-        ))}
+        {lessons.length > 0 ? (
+          <>}
       </AppShell>
     </>
   );
