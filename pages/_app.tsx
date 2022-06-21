@@ -11,9 +11,11 @@ import {
   Navbar,
   Text,
   createStyles,
+  Space,
 } from "@mantine/core";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 
 const useStyles = createStyles((theme) => ({
   navBurger: {
@@ -97,6 +99,8 @@ const useStyles = createStyles((theme) => ({
 
   logo: {
     width: "200px",
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
@@ -112,6 +116,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <Global
         styles={(theme) => ({
@@ -210,6 +215,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <Header height={100}>
               <div className={classes.navContainer}>
                 <div className={classes.logo}>
+                  <Image src="/images/t4a_logo.png" alt="T4A logo" width={64} height={64} />
+                  <Space w="xs" />
                   <Text>Tech4All</Text>
                 </div>
                 <MediaQuery largerThan="md" styles={{ display: "none" }}>

@@ -1,5 +1,6 @@
-import { createStyles } from "@mantine/core";
+import { createStyles, Space } from "@mantine/core";
 import { Button } from "@mantine/core";
+import Image from "next/image";
 import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
@@ -76,6 +77,11 @@ const useStyles = createStyles((theme) => ({
     padding: "15px 30px",
     marginTop: "15px",
   },
+
+  logo: {
+    display: "flex",
+    alignItems: "center",
+  },
 }));
 
 const FooterComponent = () => {
@@ -86,7 +92,9 @@ const FooterComponent = () => {
   return (
     <footer className={classes.footerContainer}>
       <div className={classes.logoCta}>
-        <div>
+        <div className={classes.logo}>
+          <Image src="/images/t4a_logo.png" alt="T4A Logo" width={64} height={64} />
+          <Space w="xs" />
           <p>Tech4All</p>
         </div>
         <div>
