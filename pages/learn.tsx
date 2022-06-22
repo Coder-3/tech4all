@@ -51,16 +51,15 @@ const Learn: NextPage<Props> = ({
   lessonsUsers,
 }) => {
   const user = supabase.auth.user();
-  const [lessons, setLessons] = useState([]);
+  const [lessons, setLessons] = useState<Array<any>>();
 
   useEffect(() => {
-    let formattedLessons = []
     if (user) {
-      formattedLessons = lessonsAndThumbnails?.map((lesson) => {
+      const formattedLessons = lessonsAndThumbnails?.map((lesson) => {
         return lessonsUsers.map((lessonUser) => {
           if (
             lessonUser.lesson_id === lesson.lesson.id &&
-            lessonUser.user_id === user.id
+            lessonUser.user_id === user?.id
           ) {
             return {
               ...lesson,
@@ -80,20 +79,9 @@ const Learn: NextPage<Props> = ({
           }
         })[0];
       });
-    } else {
-      return [];
+      setLessons(formattedLessons);
     }
-    setLessons(formattedLessons);
   }, [lessonsUsers, lessonsAndThumbnails, user]);
-
-  const formatLessons = () => {
-    if (user) {
-      return 
-    } else {
-      // TODO: Handle not logged in user
-      return [];
-    }
-  };
 
   const toggleCompleted = async (lessonId: number) => {
     const user = supabase.auth.user();
@@ -147,8 +135,28 @@ const Learn: NextPage<Props> = ({
           },
         })}
       >
-        {lessons.length > 0 ? (
-          <>}
+        {modules?.map((module) => (
+          <div key={`outer-div-${module.id}`}>
+            <Module key={`module-${module.id}`} title={module.title} />
+            {lessons?.map(
+              (lesson) =>
+                lesson.lesson.module_id === module.id && (
+                  <Lesson
+                    key={`lesson-${lesson.lesson.id}`}
+                    title={lesson.lesson.title}
+                    description={lesson.lesson.description}
+                    source={lesson.lesson.source}
+                    url={lesson.lesson.url}
+                    thumbnailURL={lesson.thumbnailURL}
+                    toggleCompleted={() =>
+                      toggleCompleted(lesson.lesson.id)
+                    }
+                    isCompleted={lesson.lesson.is_completed}
+                  />
+                )
+            )}
+          </div>
+        ))}
       </AppShell>
     </>
   );
