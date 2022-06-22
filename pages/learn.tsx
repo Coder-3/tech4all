@@ -57,9 +57,10 @@ const Learn: NextPage<Props> = ({
     if (user) {
       const formattedLessons = lessonsAndThumbnails?.map((lesson) => {
         return lessonsUsers.map((lessonUser) => {
+          console.log(lessonUser.lesson_id === lesson.lesson.id, '\n', lessonUser.user_id === user.id, lessonUser.is_completed, lesson.lesson.id);
           if (
             lessonUser.lesson_id === lesson.lesson.id &&
-            lessonUser.user_id === user?.id
+            lessonUser.user_id === user.id
           ) {
             return {
               ...lesson,
@@ -69,17 +70,12 @@ const Learn: NextPage<Props> = ({
               },
             };
           } else {
-            return {
-              ...lesson,
-              lesson: {
-                ...lesson.lesson,
-                is_completed: false,
-              },
-            };
+            return lesson;
           }
         })[0];
       });
       setLessons(formattedLessons);
+      console.log(formattedLessons)
     }
   }, [lessonsUsers, lessonsAndThumbnails, user]);
 
@@ -92,7 +88,7 @@ const Learn: NextPage<Props> = ({
         .eq("user_id", user.id)
         .eq("lesson_id", lessonId);
 
-      if (existingLesson) {
+      if (existingLesson !== null && existingLesson.length > 0) {
         await supabase
           .from("lessons_users")
           .update({ is_completed: !existingLesson[0].is_completed })
@@ -143,14 +139,13 @@ const Learn: NextPage<Props> = ({
                 lesson.lesson.module_id === module.id && (
                   <Lesson
                     key={`lesson-${lesson.lesson.id}`}
+                    lessonId={lesson.lesson.id}
                     title={lesson.lesson.title}
                     description={lesson.lesson.description}
                     source={lesson.lesson.source}
                     url={lesson.lesson.url}
                     thumbnailURL={lesson.thumbnailURL}
-                    toggleCompleted={() =>
-                      toggleCompleted(lesson.lesson.id)
-                    }
+                    toggleCompleted={toggleCompleted}
                     isCompleted={lesson.lesson.is_completed}
                   />
                 )
