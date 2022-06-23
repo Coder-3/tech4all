@@ -52,6 +52,7 @@ const Learn: NextPage<Props> = ({
 }) => {
   const user = supabase.auth.user();
   const [lessons, setLessons] = useState<Array<any>>();
+  const sortedModules = modules.sort((a, b) => a.order - b.order);
 
   useEffect(() => {
     if (user) {
@@ -106,7 +107,7 @@ const Learn: NextPage<Props> = ({
         <title>Learn</title>
       </Head>
       <Container size="xl">
-        {modules?.map((module) => (
+        {sortedModules?.map((module) => (
           <div key={`outer-div-${module.id}`}>
             <Module key={`module-${module.id}`} title={module.title} />
             {lessons?.map(
