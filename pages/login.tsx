@@ -46,6 +46,7 @@ const LoginPage: NextPage = () => {
           label="Email"
           description="Enter your email address that you'd like to use to login"
           type="email"
+          name="email"
           mb={10}
         />
         <Button type="submit">Login</Button>
