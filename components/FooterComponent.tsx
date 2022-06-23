@@ -111,10 +111,8 @@ const FooterComponent = () => {
       </div>
       <div className={classes.links}>
         <Link href="/">Home</Link>
-        <Link href="/vision">Vision</Link>
         <Link href="/learn">Learn</Link>
-        <Link href="/blog">Blog</Link>
-        <Link href="/about">About</Link>
+        <Link href="/login">Login</Link>
       </div>
       <div className={classes.copyright}>
         <p>© {currentYear} Tech4All</p>

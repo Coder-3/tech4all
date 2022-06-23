@@ -12,6 +12,7 @@ import {
   Text,
   createStyles,
   Space,
+  Anchor,
 } from "@mantine/core";
 import Link from "next/link";
 import { useState } from "react";
@@ -215,9 +216,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <Header height={100}>
               <div className={classes.navContainer}>
                 <div className={classes.logo}>
-                  <Image src="/images/t4a_logo.png" alt="T4A logo" width={64} height={64} />
+                  <Image
+                    src="/images/t4a_logo.png"
+                    alt="T4A logo"
+                    width={64}
+                    height={64}
+                  />
                   <Space w="xs" />
-                  <Text>Tech4All</Text>
+                  <Link href="/">
+                    <Anchor style={{ textDecoration: "none" }}>Tech4All</Anchor>
+                  </Link>
                 </div>
                 <MediaQuery largerThan="md" styles={{ display: "none" }}>
                   <Burger
@@ -227,21 +235,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   />
                 </MediaQuery>
                 <div className={classes.links}>
-                  <Link href="/vision">Vision</Link>
                   <Link href="/learn">Learn</Link>
-                  <Link href="/blog">Blog</Link>
-                  <Link href="/about">About</Link>
+                  <Link href="/login">Login</Link>
                 </div>
                 <div className={classes.joinUsButtonDesktop}>
-                  <Link href="/login" passHref>
-                    <Button
-                      component="a"
-                      color="dark-blue"
-                      className={classes.joinUsButton}
-                    >
-                      Join Us
-                    </Button>
-                  </Link>
+                  <Button color="dark-blue" className={classes.joinUsButton}>
+                    Join Us
+                  </Button>
                 </div>
               </div>
             </Header>
@@ -252,19 +252,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               width={{ base: "100%", md: 0 }}
               hidden={!opened}
             >
-              <Link href="/login" passHref>
-                <Button
-                  component="a"
-                  color="dark-blue"
-                  className={classes.joinUsButton}
-                >
-                  Join Us
-                </Button>
-              </Link>
-              <Link href="/vision">Vision</Link>
+              <Button color="dark-blue" className={classes.joinUsButton}>
+                Join Us
+              </Button>
               <Link href="/learn">Learn</Link>
-              <Link href="/blog">Blog</Link>
-              <Link href="/about">About</Link>
+              <Link href="/login">Login</Link>
             </Navbar>
           }
         >
