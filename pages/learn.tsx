@@ -1,4 +1,4 @@
-import { AppShell, Button, Header, Navbar, Stack, Title } from "@mantine/core";
+import { AppShell, Button, Container, Header, Navbar, Stack, Title } from "@mantine/core";
 import { UpdateIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -105,26 +105,7 @@ const Learn: NextPage<Props> = ({
       <Head>
         <title>Learn</title>
       </Head>
-      <AppShell
-        navbar={
-          <Navbar width={{ base: 200 }} height={500}>
-            <Navbar.Section p={20}>
-              <Stack>
-                <Link href="/profile">My Profile</Link>
-                <Link href="/#">Curriculum</Link>
-              </Stack>
-            </Navbar.Section>
-          </Navbar>
-        }
-        styles={(theme) => ({
-          main: {
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[8]
-                : theme.colors.gray[0],
-          },
-        })}
-      >
+      <Container size="xl">
         {modules?.map((module) => (
           <div key={`outer-div-${module.id}`}>
             <Module key={`module-${module.id}`} title={module.title} />
@@ -146,7 +127,7 @@ const Learn: NextPage<Props> = ({
             )}
           </div>
         ))}
-      </AppShell>
+      </Container>
     </>
   );
 };
