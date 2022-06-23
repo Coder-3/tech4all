@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -73,6 +74,7 @@ const Lesson = ({
   isCompleted,
 }: Props) => {
   const { classes } = useStyles();
+  const [isLessonCompleted, setIsLessonCompleted] = useState(isCompleted);
   return (
     <div className={classes.wrapper}>
       <Container className={classes.containerStyles} px={30} py={40}>
@@ -118,24 +120,33 @@ const Lesson = ({
           </Grid.Col>
           <Grid.Col span={4}>
             <Center style={{ height: "100%" }}>
-                {isCompleted ? (
-                  <Button onClick={() => toggleCompleted(lessonId)} color="green">
-                    <CheckCircledIcon />
-                    <Space w="sm" />
-                    Lesson Completed
-                  </Button>
-                ) : (
-                  <Button
-                    color="gray"
-                    className={classes.uncheckedButton}
-                    variant="outline"
-                    onClick={() => toggleCompleted(lessonId)}
-                  >
-                    <CheckCircledIcon className={classes.greyedCheck} />
-                    <Space w="sm" />
-                    Mark as completed
-                  </Button>
-                )}
+              {isLessonCompleted ? (
+                <Button
+                  onClick={() => {
+                    setIsLessonCompleted(!isLessonCompleted)
+                    toggleCompleted(lessonId);
+                  }}
+                  color="green"
+                >
+                  <CheckCircledIcon />
+                  <Space w="sm" />
+                  Lesson Completed
+                </Button>
+              ) : (
+                <Button
+                  color="gray"
+                  className={classes.uncheckedButton}
+                  variant="outline"
+                  onClick={() => {
+                    setIsLessonCompleted(!isLessonCompleted);
+                    toggleCompleted(lessonId);
+                  }}
+                >
+                  <CheckCircledIcon className={classes.greyedCheck} />
+                  <Space w="sm" />
+                  Mark as completed
+                </Button>
+              )}
             </Center>
           </Grid.Col>
         </Grid>

@@ -55,27 +55,21 @@ const Learn: NextPage<Props> = ({
 
   useEffect(() => {
     if (user) {
-      const formattedLessons = lessonsAndThumbnails?.map((lesson) => {
-        return lessonsUsers.map((lessonUser) => {
-          console.log(lessonUser.lesson_id === lesson.lesson.id, '\n', lessonUser.user_id === user.id, lessonUser.is_completed, lesson.lesson.id);
-          if (
-            lessonUser.lesson_id === lesson.lesson.id &&
-            lessonUser.user_id === user.id
-          ) {
-            return {
-              ...lesson,
-              lesson: {
-                ...lesson.lesson,
-                is_completed: lessonUser.is_completed,
-              },
-            };
-          } else {
-            return lesson;
-          }
-        })[0];
+      const formattedLessons = lessonsAndThumbnails.map((lesson) => {
+        return {
+          ...lesson,
+          lesson: {
+            ...lesson.lesson,
+            is_completed: lessonsUsers.some(
+              (lessonUser) =>
+                lessonUser.lesson_id === lesson.lesson.id &&
+                lessonUser.user_id === user.id &&
+                lessonUser.is_completed
+            ),
+          },
+        };
       });
       setLessons(formattedLessons);
-      console.log(formattedLessons)
     }
   }, [lessonsUsers, lessonsAndThumbnails, user]);
 
