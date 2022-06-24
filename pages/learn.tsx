@@ -1,5 +1,16 @@
-import { AppShell, Button, Container, Header, Navbar, Stack, Title } from "@mantine/core";
+import {
+  Anchor,
+  AppShell,
+  Button,
+  Container,
+  Header,
+  Navbar,
+  Image,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { UpdateIcon } from "@radix-ui/react-icons";
+import { User } from "@supabase/supabase-js";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -50,12 +61,17 @@ const Learn: NextPage<Props> = ({
   modules,
   lessonsUsers,
 }) => {
-  const user = supabase.auth.user();
   const [lessons, setLessons] = useState<Array<any>>();
+  const [userState, setUserState] = useState<User | null>(null);
   const sortedModules = modules.sort((a, b) => a.order - b.order);
 
+  const user = supabase.auth.user();
   useEffect(() => {
-    if (user) {
+    setUserState(supabase.auth.user());
+  }, [user]);
+
+  useEffect(() => {
+    if (userState) {
       const formattedLessons = lessonsAndThumbnails.map((lesson) => {
         return {
           ...lesson,
@@ -64,7 +80,7 @@ const Learn: NextPage<Props> = ({
             is_completed: lessonsUsers.some(
               (lessonUser) =>
                 lessonUser.lesson_id === lesson.lesson.id &&
-                lessonUser.user_id === user.id &&
+                lessonUser.user_id === userState.id &&
                 lessonUser.is_completed
             ),
           },
@@ -72,32 +88,29 @@ const Learn: NextPage<Props> = ({
       });
       setLessons(formattedLessons);
     }
-  }, [lessonsUsers, lessonsAndThumbnails, user]);
+  }, [lessonsUsers, lessonsAndThumbnails, userState]);
 
   const toggleCompleted = async (lessonId: number) => {
-    const user = supabase.auth.user();
-    if (user) {
+    if (userState) {
       const { data: existingLesson, error } = await supabase
         .from("lessons_users")
         .select("lesson_id, user_id, is_completed")
-        .eq("user_id", user.id)
+        .eq("user_id", userState.id)
         .eq("lesson_id", lessonId);
 
       if (existingLesson !== null && existingLesson.length > 0) {
         await supabase
           .from("lessons_users")
           .update({ is_completed: !existingLesson[0].is_completed })
-          .match({ user_id: user.id })
+          .match({ user_id: userState.id })
           .match({ lesson_id: lessonId });
       } else {
         await supabase.from("lessons_users").insert({
           lesson_id: lessonId,
-          user_id: user.id,
+          user_id: userState.id,
           is_completed: true,
         });
       }
-    } else {
-      console.error("TODO: handle not logged in user");
     }
   };
 
@@ -107,27 +120,47 @@ const Learn: NextPage<Props> = ({
         <title>Learn</title>
       </Head>
       <Container size="xl">
-        {sortedModules?.map((module) => (
-          <div key={`outer-div-${module.id}`}>
-            <Module key={`module-${module.id}`} title={module.title} />
-            {lessons?.map(
-              (lesson) =>
-                lesson.lesson.module_id === module.id && (
-                  <Lesson
-                    key={`lesson-${lesson.lesson.id}`}
-                    lessonId={lesson.lesson.id}
-                    title={lesson.lesson.title}
-                    description={lesson.lesson.description}
-                    source={lesson.lesson.source}
-                    url={lesson.lesson.url}
-                    thumbnailURL={lesson.thumbnailURL}
-                    toggleCompleted={toggleCompleted}
-                    isCompleted={lesson.lesson.is_completed}
-                  />
-                )
-            )}
+        <div style={{ display: `${userState ? "block" : "none"}` }}>
+          {sortedModules?.map((module) => (
+            <div key={`outer-div-${module.id}`}>
+              <Module key={`module-${module.id}`} title={module.title} />
+              {lessons?.map(
+                (lesson) =>
+                  lesson.lesson.module_id === module.id && (
+                    <Lesson
+                      key={`lesson-${lesson.lesson.id}`}
+                      lessonId={lesson.lesson.id}
+                      title={lesson.lesson.title}
+                      description={lesson.lesson.description}
+                      source={lesson.lesson.source}
+                      url={lesson.lesson.url}
+                      thumbnailURL={lesson.thumbnailURL}
+                      toggleCompleted={toggleCompleted}
+                      isCompleted={lesson.lesson.is_completed}
+                    />
+                  )
+              )}
+            </div>
+          ))}
+        </div>
+        <div style={{ display: `${userState ? "none" : "block"}` }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              src="/images/door.jpg"
+              width={400}
+              alt="watercolor door with turnkey lock"
+            />
+            <Title order={2}>
+              Please <Link href="/login">login</Link>.
+            </Title>
           </div>
-        ))}
+        </div>
       </Container>
     </>
   );
