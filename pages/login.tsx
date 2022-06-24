@@ -21,8 +21,9 @@ const LoginPage: NextPage = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: 400,
+        maxWidth: 400,
         margin: "auto",
+        padding: "20px",
       }}
     >
       <Head>

@@ -15,8 +15,10 @@ import {
   Anchor,
 } from "@mantine/core";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { User } from "@supabase/supabase-js";
+import supabase from "../utils/supabase";
 
 const useStyles = createStyles((theme) => ({
   navBurger: {
@@ -109,6 +111,11 @@ const useStyles = createStyles((theme) => ({
 export default function MyApp({ Component, pageProps }: AppProps) {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const supabaseUser = supabase.auth.user();
+  useEffect(() => {
+    setUser(supabaseUser);
+  }, [supabaseUser]);
 
   return (
     <>
@@ -239,11 +246,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   <Link href="/learn">Learn</Link>
                   <Link href="/login">Login</Link>
                 </div>
-                <div className={classes.joinUsButtonDesktop}>
-                  <Button color="dark-blue" className={classes.joinUsButton}>
-                    Join Us
-                  </Button>
-                </div>
+                {user?.email ? (
+                  <div className={classes.joinUsButtonDesktop}>
+                    <Text>Logged in as {user.email}</Text>
+                  </div>
+                ) : (
+                  <div className={classes.joinUsButtonDesktop}>
+                    <Button color="dark-blue" className={classes.joinUsButton}>
+                      Join Us
+                    </Button>
+                  </div>
+                )}
               </div>
             </Header>
           }
@@ -253,16 +266,28 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               width={{ base: "100%", md: 0 }}
               hidden={!opened}
             >
-              <Button color="dark-blue" className={classes.joinUsButton}>
-                Join Us
-              </Button>
+              {user?.email ? (
+                <Text>Logged in as {user.email}</Text>
+              ) : (
+                <Button color="dark-blue" className={classes.joinUsButton}>
+                  Join Us
+                </Button>
+              )}
               <Link href="/login">
-                <Button variant="subtle" component="a" onClick={() => setOpened(!opened)}>
+                <Button
+                  variant="subtle"
+                  component="a"
+                  onClick={() => setOpened(!opened)}
+                >
                   Login
                 </Button>
               </Link>
               <Link href="/learn" passHref>
-                <Button variant="subtle" component="a" onClick={() => setOpened(!opened)}>
+                <Button
+                  variant="subtle"
+                  component="a"
+                  onClick={() => setOpened(!opened)}
+                >
                   Learn
                 </Button>
               </Link>
