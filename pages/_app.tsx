@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { User } from "@supabase/supabase-js";
 import supabase from "../utils/supabase";
+import FooterComponent from "../components/FooterComponent";
 
 const useStyles = createStyles((theme) => ({
   navBurger: {
@@ -133,7 +134,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             boxSizing: "border-box",
           },
           body: {
-            minHeight: "100%",
             margin: 0,
           },
           main: {
@@ -295,6 +295,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           }
         >
           <Component {...pageProps} />
+          <FooterComponent />
         </AppShell>
       </MantineProvider>
     </>

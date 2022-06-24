@@ -18,7 +18,6 @@ const Home: NextPage = () => {
       <WhatWeOffer />
       <CoursesOverview />
       <HowItWorks />
-      <FooterComponent />
     </>
   );
 };
