@@ -78,8 +78,8 @@ const Lesson = ({
   return (
     <div className={classes.wrapper}>
       <Container className={classes.containerStyles} px={30} py={40}>
-        <Grid>
-          <Grid.Col span={4}>
+        <Grid style={{ textAlign: "center", rowGap: 15 }}>
+          <Grid.Col md={4}>
             <Anchor
               href={url}
               className={classes.lessonLink}
@@ -105,7 +105,7 @@ const Lesson = ({
               )}
             </Anchor>
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col md={4}>
             <Anchor
               href={url}
               className={classes.lessonLink}
@@ -118,12 +118,12 @@ const Lesson = ({
               <Text className={classes.description}>{description}</Text>
             </Anchor>
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col md={4}>
             <Center style={{ height: "100%" }}>
               {isLessonCompleted ? (
                 <Button
                   onClick={() => {
-                    setIsLessonCompleted(!isLessonCompleted)
+                    setIsLessonCompleted(!isLessonCompleted);
                     toggleCompleted(lessonId);
                   }}
                   color="green"

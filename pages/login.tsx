@@ -13,7 +13,6 @@ const LoginPage: NextPage = () => {
     const email = target.email.value;
 
     const response = await supabase.auth.signIn({ email });
-    console.log("this is the response", response);
   };
 
   return (
