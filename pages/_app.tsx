@@ -23,6 +23,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     paddingTop: "30px",
+    rowGap: "30px",
     [theme.fn.largerThan("md")]: {
       display: "none",
     },
@@ -255,8 +256,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               <Button color="dark-blue" className={classes.joinUsButton}>
                 Join Us
               </Button>
-              <Link href="/learn">Learn</Link>
-              <Link href="/login">Login</Link>
+              <Link href="/login">
+                <Button variant="subtle" component="a" onClick={() => setOpened(!opened)}>
+                  Login
+                </Button>
+              </Link>
+              <Link href="/learn" passHref>
+                <Button variant="subtle" component="a" onClick={() => setOpened(!opened)}>
+                  Learn
+                </Button>
+              </Link>
             </Navbar>
           }
         >

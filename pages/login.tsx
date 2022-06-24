@@ -12,7 +12,7 @@ const LoginPage: NextPage = () => {
     };
     const email = target.email.value;
 
-    const response = await supabase.auth.signIn({ email });
+    await supabase.auth.signIn({ email });
   };
 
   return (
@@ -29,15 +29,14 @@ const LoginPage: NextPage = () => {
         <title>Login</title>
       </Head>
       <Title my={20} order={1}>
-        Login (dev purposes)
+        Login
       </Title>
       <List type="ordered" mb={20}>
-        <List.Item>Run app on localhost:3000</List.Item>
         <List.Item>Type your email</List.Item>
         <List.Item>Click login</List.Item>
         <List.Item>
-          Click link in your email which will take you back to localhost:3000
-          but youll be logged in
+          Click link in your email which will take you back to
+          the website but you will be logged in
         </List.Item>
       </List>
       <form onSubmit={handleSubmit}>
