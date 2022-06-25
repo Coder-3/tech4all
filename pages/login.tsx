@@ -2,7 +2,15 @@ import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 import supabase from "../utils/supabase";
-import { Button, List, TextInput, Title, Dialog, Text } from "@mantine/core";
+import {
+  Button,
+  List,
+  TextInput,
+  Title,
+  Dialog,
+  Text,
+  MediaQuery,
+} from "@mantine/core";
 import { useState } from "react";
 
 const LoginPage: NextPage = () => {
@@ -59,22 +67,48 @@ const LoginPage: NextPage = () => {
           Login
         </Button>
       </form>
-      <Dialog
-        opened={success}
-        withCloseButton
-        onClose={() => setSuccess(false)}
-        size="lg"
-        radius="md"
-        transition="slide-up"
-        transitionDuration={300}
-        transitionTimingFunction="ease"
-        position={{ bottom: 20, left: 20 }}
+      <MediaQuery
+        query="(max-width: 500px) and (min-width: 0)"
+        styles={{ display: "none" }}
       >
-        <Text p="md">
-          Check your email and click the link to be redirected to the site
-          logged in.
-        </Text>
-      </Dialog>
+        <Dialog
+          opened={success}
+          withCloseButton
+          onClose={() => setSuccess(false)}
+          size="lg"
+          radius="md"
+          transition="slide-up"
+          transitionDuration={300}
+          transitionTimingFunction="ease"
+          position={{ bottom: 20, left: 20 }}
+        >
+          <Text p="md">
+            Check your email and click the link to be redirected to the site
+            logged in.
+          </Text>
+        </Dialog>
+      </MediaQuery>
+      <MediaQuery
+        query="(min-width: 501px)"
+        styles={{ display: "none" }}
+      >
+        <Dialog
+          opened={success}
+          withCloseButton
+          onClose={() => setSuccess(false)}
+          size="sm"
+          radius="md"
+          transition="slide-up"
+          transitionDuration={300}
+          transitionTimingFunction="ease"
+          position={{ bottom: 20, left: 20 }}
+        >
+          <Text p="md">
+            Check your email and click the link to be redirected to the site
+            logged in.
+          </Text>
+        </Dialog>
+      </MediaQuery>
     </div>
   );
 };
