@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
 
     [theme.fn.smallerThan("sm")]: {
       flexDirection: "column",
-      justifyContent: "center",
+      alignItems: "center",
       textAlign: "center",
       gap: "10px",
       borderBottom: "none",
@@ -66,7 +66,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   joinUsButton: {
-    width: "336px",
+    width: "250px",
     height: "auto",
     minHeight: "30px",
     color: "white",
