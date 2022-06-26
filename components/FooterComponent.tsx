@@ -1,5 +1,6 @@
-import { createStyles } from "@mantine/core";
+import { createStyles, Space } from "@mantine/core";
 import { Button } from "@mantine/core";
+import Image from "next/image";
 import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
@@ -29,7 +30,7 @@ const useStyles = createStyles((theme) => ({
 
     [theme.fn.smallerThan("sm")]: {
       flexDirection: "column",
-      justifyContent: "center",
+      alignItems: "center",
       textAlign: "center",
       gap: "10px",
       borderBottom: "none",
@@ -65,7 +66,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   joinUsButton: {
-    width: "336px",
+    width: "250px",
     height: "auto",
     minHeight: "30px",
     color: "white",
@@ -75,6 +76,11 @@ const useStyles = createStyles((theme) => ({
     textTransform: "uppercase",
     padding: "15px 30px",
     marginTop: "15px",
+  },
+
+  logo: {
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
@@ -86,7 +92,9 @@ const FooterComponent = () => {
   return (
     <footer className={classes.footerContainer}>
       <div className={classes.logoCta}>
-        <div>
+        <div className={classes.logo}>
+          <Image src="/images/t4a_logo.png" alt="T4A Logo" width={64} height={64} />
+          <Space w="xs" />
           <p>Tech4All</p>
         </div>
         <div>
@@ -103,10 +111,8 @@ const FooterComponent = () => {
       </div>
       <div className={classes.links}>
         <Link href="/">Home</Link>
-        <Link href="/vision">Vision</Link>
         <Link href="/learn">Learn</Link>
-        <Link href="/blog">Blog</Link>
-        <Link href="/about">About</Link>
+        <Link href="/login">Login</Link>
       </div>
       <div className={classes.copyright}>
         <p>© {currentYear} Tech4All</p>

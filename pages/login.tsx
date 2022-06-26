@@ -2,18 +2,32 @@ import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 import supabase from "../utils/supabase";
-import { Button, List, TextInput, Title } from "@mantine/core";
+import {
+  Button,
+  List,
+  TextInput,
+  Title,
+  Dialog,
+  Text,
+  MediaQuery,
+} from "@mantine/core";
+import { useState } from "react";
 
 const LoginPage: NextPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
+    setLoading(true);
     const target = event.target as typeof event.target & {
       email: { value: string };
     };
     const email = target.email.value;
 
-    const response = await supabase.auth.signIn({ email });
-    console.log("this is the response", response);
+    await supabase.auth.signIn({ email });
+    setLoading(false);
+    setSuccess(true);
   };
 
   return (
@@ -22,23 +36,23 @@ const LoginPage: NextPage = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: 400,
+        maxWidth: 400,
         margin: "auto",
+        padding: "20px",
       }}
     >
       <Head>
         <title>Login</title>
       </Head>
       <Title my={20} order={1}>
-        Login (dev purposes)
+        Login
       </Title>
       <List type="ordered" mb={20}>
-        <List.Item>Run app on localhost:3000</List.Item>
         <List.Item>Type your email</List.Item>
         <List.Item>Click login</List.Item>
         <List.Item>
-          Click link in your email which will take you back to localhost:3000
-          but youll be logged in
+          Click link in your email which will take you back to the website but
+          you will be logged in
         </List.Item>
       </List>
       <form onSubmit={handleSubmit}>
@@ -46,10 +60,55 @@ const LoginPage: NextPage = () => {
           label="Email"
           description="Enter your email address that you'd like to use to login"
           type="email"
+          name="email"
           mb={10}
         />
-        <Button type="submit">Login</Button>
+        <Button type="submit" loading={loading}>
+          Login
+        </Button>
       </form>
+      <MediaQuery
+        query="(max-width: 500px) and (min-width: 0)"
+        styles={{ display: "none" }}
+      >
+        <Dialog
+          opened={success}
+          withCloseButton
+          onClose={() => setSuccess(false)}
+          size="lg"
+          radius="md"
+          transition="slide-up"
+          transitionDuration={300}
+          transitionTimingFunction="ease"
+          position={{ bottom: 20, left: 20 }}
+        >
+          <Text p="md">
+            Check your email and click the link to be redirected to the site
+            logged in.
+          </Text>
+        </Dialog>
+      </MediaQuery>
+      <MediaQuery
+        query="(min-width: 501px)"
+        styles={{ display: "none" }}
+      >
+        <Dialog
+          opened={success}
+          withCloseButton
+          onClose={() => setSuccess(false)}
+          size="sm"
+          radius="md"
+          transition="slide-up"
+          transitionDuration={300}
+          transitionTimingFunction="ease"
+          position={{ bottom: 20, left: 20 }}
+        >
+          <Text p="md">
+            Check your email and click the link to be redirected to the site
+            logged in.
+          </Text>
+        </Dialog>
+      </MediaQuery>
     </div>
   );
 };

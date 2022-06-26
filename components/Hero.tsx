@@ -48,7 +48,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   joinUsButton: {
-    width: "336px",
+    width: "300px",
     height: "auto",
     minHeight: "30px",
     color: "white",

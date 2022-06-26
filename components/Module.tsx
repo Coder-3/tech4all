@@ -3,7 +3,6 @@ import { Container, createStyles, Title } from "@mantine/core";
 const useStyles = createStyles((theme) => ({
   containerStyles: {
     maxWidth: "100%",
-    borderTop: "1px solid #E6E6E6",
     borderBottom: "1px solid #E6E6E6",
   },
 }));

@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -48,27 +49,43 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       backgroundColor: theme.colors.gray[2],
     },
-  }
+  },
 }));
 
 interface Props {
   title: string;
+  lessonId: number;
   description: string;
   source: string;
   url: string;
   thumbnailURL: string;
-  toggleCompleted: (lessonId: string) => void;
+  toggleCompleted: (lessonId: number) => void;
   isCompleted: boolean;
 }
 
-const Lesson = ({ title, description, source, url, thumbnailURL, toggleCompleted, isCompleted }: Props) => {
+const Lesson = ({
+  title,
+  lessonId,
+  description,
+  source,
+  url,
+  thumbnailURL,
+  toggleCompleted,
+  isCompleted,
+}: Props) => {
   const { classes } = useStyles();
+  const [isLessonCompleted, setIsLessonCompleted] = useState(isCompleted);
   return (
     <div className={classes.wrapper}>
-      <Anchor href={url} className={classes.lessonLink} target="_blank" rel="noopener noreferrer">
-        <Container className={classes.containerStyles} px={30} py={40}>
-          <Grid>
-            <Grid.Col span={4}>
+      <Container className={classes.containerStyles} px={30} py={40}>
+        <Grid style={{ textAlign: "center", rowGap: 15 }}>
+          <Grid.Col md={4}>
+            <Anchor
+              href={url}
+              className={classes.lessonLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {thumbnailURL.slice(-4) !== "null" ? (
                 <Image
                   src={thumbnailURL}
@@ -79,37 +96,62 @@ const Lesson = ({ title, description, source, url, thumbnailURL, toggleCompleted
                 />
               ) : (
                 <div
-                  style={{ width: 250, height: 150, backgroundColor: "lightgrey" }}
+                  style={{
+                    width: 250,
+                    height: 150,
+                    backgroundColor: "lightgrey",
+                  }}
                 />
               )}
-            </Grid.Col>
-            <Grid.Col span={4}>
+            </Anchor>
+          </Grid.Col>
+          <Grid.Col md={4}>
+            <Anchor
+              href={url}
+              className={classes.lessonLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Title order={2} pb={10} className={classes.title}>
                 {title}
               </Title>
               <Text className={classes.description}>{description}</Text>
-            </Grid.Col>
-            <Grid.Col span={4}>
-              <Center style={{ height: "100%" }}>
-                {isCompleted ? (
-                  <Button style={{ zIndex: "-1" }} onClick={() => toggleCompleted} color="green">
-                    <CheckCircledIcon />
-                    <Space w="sm" />
-                    Lesson Completed
-                  </Button>
-                ) : (
-                  <Button color="gray" className={classes.uncheckedButton} variant="outline">
-                    <CheckCircledIcon className={classes.greyedCheck} />
-                    <Space w="sm" />
-                    Mark as completed
-                  </Button>
-                )}
-              </Center>
-            </Grid.Col>
-          </Grid>
-        </Container>
-        <Divider />
-      </Anchor>
+            </Anchor>
+          </Grid.Col>
+          <Grid.Col md={4}>
+            <Center style={{ height: "100%" }}>
+              {isLessonCompleted ? (
+                <Button
+                  onClick={() => {
+                    setIsLessonCompleted(!isLessonCompleted);
+                    toggleCompleted(lessonId);
+                  }}
+                  color="green"
+                >
+                  <CheckCircledIcon />
+                  <Space w="sm" />
+                  Lesson Completed
+                </Button>
+              ) : (
+                <Button
+                  color="gray"
+                  className={classes.uncheckedButton}
+                  variant="outline"
+                  onClick={() => {
+                    setIsLessonCompleted(!isLessonCompleted);
+                    toggleCompleted(lessonId);
+                  }}
+                >
+                  <CheckCircledIcon className={classes.greyedCheck} />
+                  <Space w="sm" />
+                  Mark as completed
+                </Button>
+              )}
+            </Center>
+          </Grid.Col>
+        </Grid>
+      </Container>
+      <Divider />
     </div>
   );
 };

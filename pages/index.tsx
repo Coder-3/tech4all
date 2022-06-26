@@ -9,7 +9,6 @@ import Hero from "../components/Hero";
 import supabase from "../utils/supabase";
 
 const Home: NextPage = () => {
-  console.log(supabase.auth.user())
   return (
     <>
       <Head>
@@ -19,7 +18,6 @@ const Home: NextPage = () => {
       <WhatWeOffer />
       <CoursesOverview />
       <HowItWorks />
-      <FooterComponent />
     </>
   );
 };
