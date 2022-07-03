@@ -1,15 +1,4 @@
-import {
-  Anchor,
-  AppShell,
-  Button,
-  Container,
-  Header,
-  Navbar,
-  Image,
-  Stack,
-  Title,
-} from "@mantine/core";
-import { UpdateIcon } from "@radix-ui/react-icons";
+import { Container, Image, Title } from "@mantine/core";
 import { User } from "@supabase/supabase-js";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -19,14 +8,13 @@ import Lesson from "../components/Lesson";
 import Module from "../components/Module";
 import supabase from "../utils/supabase";
 
-const Learn: NextPage = ({
-}) => {
+const Learn: NextPage = ({}) => {
   const [lessonsAndThumbnails, setLessonsAndThumbnails] = useState([]);
   const [modules, setModules] = useState([]);
   const [lessonsUsers, setLessonsUsers] = useState([]);
-  // const [lessons, setLessons] = useState<Array<any>>();
-  // const [userState, setUserState] = useState<User | null>(null);
-  // const sortedModules = modules && modules.sort((a, b) => a.order - b.order);
+  const [lessons, setLessons] = useState<Array<any>>();
+  const [userState, setUserState] = useState<User | null>(null);
+  const sortedModules = modules.sort((a: any, b: any) => a.order - b.order);
 
   const getLessons = async () => {
     const { data: lessons, error: e1 } = await supabase
@@ -51,71 +39,72 @@ const Learn: NextPage = ({
       .select("*");
 
     return {
-        lessonsAndThumbnails,
-        modules,
-        lessonsUsers,
+      lessonsAndThumbnails,
+      modules,
+      lessonsUsers,
     };
   };
 
   useEffect(() => {
-    getLessons().then((res) => {
-      console.log('res', res)
-      // if (res) {
-      // setLessonsAndThumbnails(res.lessonsAndThumbnails);
-      // setModules(res.modules);
-      // setLessonsUsers(res.lessonsUsers);
-      // }
+    getLessons().then((res: any) => {
+      if (res) {
+        setLessonsAndThumbnails(res.lessonsAndThumbnails);
+        setModules(res.modules);
+        setLessonsUsers(res.lessonsUsers);
+      } else {
+        console.error("error getting the lessons");
+      }
     });
-  }, [])
+  }, []);
 
-  // const user = supabase.auth.user();
-  // useEffect(() => {
-  //   setUserState(supabase.auth.user());
-  // }, [user]);
+  const user = supabase.auth.user();
+  useEffect(() => {
+    setUserState(supabase.auth.user());
+  }, [user]);
 
-  // useEffect(() => {
-  //   if (userState) {
-  //     const formattedLessons = lessonsAndThumbnails.map((lesson) => {
-  //       return {
-  //         ...lesson,
-  //         lesson: {
-  //           ...lesson.lesson,
-  //           is_completed: lessonsUsers.some(
-  //             (lessonUser) =>
-  //               lessonUser.lesson_id === lesson.lesson.id &&
-  //               lessonUser.user_id === userState.id &&
-  //               lessonUser.is_completed
-  //           ),
-  //         },
-  //       };
-  //     });
-  //     setLessons(formattedLessons);
-  //   }
-  // }, [lessonsUsers, lessonsAndThumbnails, userState]);
+  useEffect(() => {
+    if (userState) {
+      const formattedLessons = lessonsAndThumbnails.map((lesson: any) => {
+        return {
+          ...lesson,
+          lesson: {
+            ...lesson.lesson,
+            is_completed: lessonsUsers.some(
+              (lessonUser: any) =>
+                lessonUser.lesson_id === lesson.lesson.id &&
+                lessonUser.user_id === userState.id &&
+                lessonUser.is_completed
+            ),
+          },
+        };
+      });
+      setLessons(formattedLessons);
+    }
+  }, [lessonsUsers, lessonsAndThumbnails, userState]);
 
-  // const toggleCompleted = async (lessonId: number) => {
-  //   if (userState) {
-  //     const { data: existingLesson, error } = await supabase
-  //       .from("lessons_users")
-  //       .select("lesson_id, user_id, is_completed")
-  //       .eq("user_id", userState.id)
-  //       .eq("lesson_id", lessonId);
+  const toggleCompleted = async (lessonId: number) => {
+    if (userState) {
+      const { data: existingLesson, error } = await supabase
+        .from("lessons_users")
+        .select("lesson_id, user_id, is_completed")
+        .eq("user_id", userState.id)
+        .eq("lesson_id", lessonId);
 
-  //     if (existingLesson !== null && existingLesson.length > 0) {
-  //       await supabase
-  //         .from("lessons_users")
-  //         .update({ is_completed: !existingLesson[0].is_completed })
-  //         .match({ user_id: userState.id })
-  //         .match({ lesson_id: lessonId });
-  //     } else {
-  //       await supabase.from("lessons_users").insert({
-  //         lesson_id: lessonId,
-  //         user_id: userState.id,
-  //         is_completed: true,
-  //       });
-  //     }
-  //   }
-  // };
+      if (existingLesson !== null && existingLesson.length > 0) {
+        await supabase
+          .from("lessons_users")
+          .update({ is_completed: !existingLesson[0].is_completed })
+          .match({ user_id: userState.id })
+          .match({ lesson_id: lessonId });
+      } else {
+        await supabase.from("lessons_users").insert({
+          lesson_id: lessonId,
+          user_id: userState.id,
+          is_completed: true,
+        });
+      }
+    }
+  };
 
   return (
     <>
@@ -123,8 +112,8 @@ const Learn: NextPage = ({
         <title>Learn</title>
       </Head>
       <Container size="xl">
-        {/* <div style={{ display: `${userState ? "block" : "none"}` }}>
-          {sortedModules?.map((module) => (
+        <div style={{ display: `${userState ? "block" : "none"}` }}>
+          {sortedModules?.map((module: any) => (
             <div key={`outer-div-${module.id}`}>
               <Module key={`module-${module.id}`} title={module.title} />
               {lessons?.map(
@@ -163,7 +152,7 @@ const Learn: NextPage = ({
               Please <Link href="/login">login</Link>.
             </Title>
           </div>
-        </div> */}
+        </div>
       </Container>
     </>
   );
