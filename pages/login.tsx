@@ -4,69 +4,126 @@ import React from "react";
 import supabase from "../utils/supabase";
 import {
   Button,
-  List,
-  TextInput,
   Title,
   Dialog,
   Text,
   MediaQuery,
+  SegmentedControl,
+  Loader,
+  Input,
+  PasswordInput,
+  Stack,
+  Container,
 } from "@mantine/core";
 import { useState } from "react";
 
 const LoginPage: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [operationType, setOperationType] = useState("login");
 
-  const handleSubmit = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setLoading(true);
-    const target = event.target as typeof event.target & {
-      email: { value: string };
-    };
-    const email = target.email.value;
+  const handleLogin = async (e: any) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signIn({ email, password });
+      if (error) throw error;
+    } catch (error: any) {
+      alert(error.error_description || error.message);
+    } finally {
+      setLoading(false);
+      setSuccess(true);
+    }
+  };
 
-    await supabase.auth.signIn({ email });
-    setLoading(false);
-    setSuccess(true);
+  const handleSignup = async (e: any) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (error) throw error;
+    } catch (error: any) {
+      alert(error.error_description || error.message);
+    } finally {
+      setLoading(false);
+      setSuccess(true);
+    }
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        maxWidth: 400,
-        margin: "auto",
-        padding: "20px",
-      }}
-    >
-      <Head>
-        <title>Login</title>
-      </Head>
-      <Title my={20} order={1}>
-        Login
-      </Title>
-      <List type="ordered" mb={20}>
-        <List.Item>Type your email</List.Item>
-        <List.Item>Click login</List.Item>
-        <List.Item>
-          Click link in your email which will take you back to the website but
-          you will be logged in
-        </List.Item>
-      </List>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          label="Email"
-          description="Enter your email address that you'd like to use to login"
-          type="email"
-          name="email"
-          mb={10}
-        />
-        <Button type="submit" loading={loading}>
-          Login
-        </Button>
-      </form>
+    <>
+      <Container size="xs">
+        <Head>
+          <title>Login</title>
+        </Head>
+        <Stack align="center" style={{ width: "" }}>
+          <Title my={20} order={1}>
+            Login or Signup
+          </Title>
+          <SegmentedControl
+            value={operationType}
+            onChange={setOperationType}
+            data={[
+              { label: "Login", value: "login" },
+              { label: "Signup", value: "signup" },
+            ]}
+          />
+          {loading ? (
+            <Loader />
+          ) : operationType === "login" ? (
+            <form style={{ width: "100%" }} onSubmit={handleLogin}>
+              <Input
+                id="email"
+                className="inputField"
+                type="email"
+                placeholder="Your email"
+                value={email}
+                required
+                onChange={(e: any) => setEmail(e.target.value)}
+                mb="sm"
+              />
+              <PasswordInput
+                id="password"
+                placeholder="Your password"
+                value={password}
+                required
+                onChange={(e: any) => setPassword(e.target.value)}
+              />
+              <Button mt="sm" type="submit" style={{ width: "100%" }}>
+                Sign In
+              </Button>
+            </form>
+          ) : (
+            <form style={{ width: "100%" }} onSubmit={handleSignup}>
+              <Input
+                id="email"
+                className="inputField"
+                type="email"
+                placeholder="New email"
+                value={email}
+                required
+                onChange={(e: any) => setEmail(e.target.value)}
+                mb="sm"
+              />
+              <PasswordInput
+                id="password"
+                placeholder="New password"
+                value={password}
+                required
+                onChange={(e: any) => setPassword(e.target.value)}
+              />
+              <Button mt="sm" type="submit" style={{ width: "100%" }}>
+                Sign Up
+              </Button>
+            </form>
+          )}
+        </Stack>
+      </Container>
       <MediaQuery
         query="(max-width: 500px) and (min-width: 0)"
         styles={{ display: "none" }}
@@ -88,10 +145,7 @@ const LoginPage: NextPage = () => {
           </Text>
         </Dialog>
       </MediaQuery>
-      <MediaQuery
-        query="(min-width: 501px)"
-        styles={{ display: "none" }}
-      >
+      <MediaQuery query="(min-width: 501px)" styles={{ display: "none" }}>
         <Dialog
           opened={success}
           withCloseButton
@@ -109,7 +163,7 @@ const LoginPage: NextPage = () => {
           </Text>
         </Dialog>
       </MediaQuery>
-    </div>
+    </>
   );
 };
 
