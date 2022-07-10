@@ -1,4 +1,12 @@
-import { Container, Image, Title } from "@mantine/core";
+import {
+  Center,
+  Container,
+  Image,
+  Loader,
+  MediaQuery,
+  SegmentedControl,
+  Title,
+} from "@mantine/core";
 import { User } from "@supabase/supabase-js";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -9,14 +17,55 @@ import Module from "../components/Module";
 import supabase from "../utils/supabase";
 
 const Learn: NextPage = ({}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [lessonsAndThumbnails, setLessonsAndThumbnails] = useState([]);
-  const [modules, setModules] = useState([]);
+  const [modules, setModules] = useState<Array<any>>([]);
+  const [filteredModules, setFilteredModules] = useState<Array<any>>([]);
   const [lessonsUsers, setLessonsUsers] = useState([]);
   const [lessons, setLessons] = useState<Array<any>>();
   const [userState, setUserState] = useState<User | null>(null);
-  const sortedModules = modules.sort((a: any, b: any) => a.order - b.order);
+  const [track, setTrack] = useState("1");
+  const [tracks, setTracks] = useState<Array<any>>([
+    { label: "1", value: "1" },
+  ]);
+
+  const getTracks = async () => {
+    try {
+      setIsLoading(true);
+      const { data, error } = await supabase.from("tracks").select("*");
+      if (data) {
+        const t = data.map((track: any) => {
+          return {
+            label: track.title,
+            value: track.id.toString(),
+          };
+        });
+        setTracks(t);
+      }
+      if (error) throw error;
+    } catch (error: any) {
+      alert(error.error_description || error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const filtModules = modules.filter(
+      (module) => module.track_id === Number(track)
+    );
+    const sortedFiltModules = filtModules.sort(
+      (a: any, b: any) => a.order - b.order
+    );
+    setFilteredModules(sortedFiltModules);
+  }, [modules, track]);
+
+  useEffect(() => {
+    getTracks();
+  }, []);
 
   const getLessons = async () => {
+    setIsLoading(true);
     const { data: lessons, error: e1 } = await supabase
       .from("lessons")
       .select("*");
@@ -51,6 +100,7 @@ const Learn: NextPage = ({}) => {
         setLessonsAndThumbnails(res.lessonsAndThumbnails);
         setModules(res.modules);
         setLessonsUsers(res.lessonsUsers);
+        setIsLoading(false);
       } else {
         console.error("error getting the lessons");
       }
@@ -111,49 +161,73 @@ const Learn: NextPage = ({}) => {
       <Head>
         <title>Learn</title>
       </Head>
-      <Container size="xl">
-        <div style={{ display: `${userState ? "block" : "none"}` }}>
-          {sortedModules?.map((module: any) => (
-            <div key={`outer-div-${module.id}`}>
-              <Module key={`module-${module.id}`} title={module.title} />
-              {lessons?.map(
-                (lesson) =>
-                  lesson.lesson.module_id === module.id && (
-                    <Lesson
-                      key={`lesson-${lesson.lesson.id}`}
-                      lessonId={lesson.lesson.id}
-                      title={lesson.lesson.title}
-                      description={lesson.lesson.description}
-                      source={lesson.lesson.source}
-                      url={lesson.lesson.url}
-                      thumbnailURL={lesson.thumbnailURL}
-                      toggleCompleted={toggleCompleted}
-                      isCompleted={lesson.lesson.is_completed}
-                    />
-                  )
-              )}
-            </div>
-          ))}
-        </div>
-        <div style={{ display: `${userState ? "none" : "block"}` }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Image
-              src="/images/door.jpg"
-              width={400}
-              alt="watercolor door with turnkey lock"
-            />
-            <Title order={2}>
-              Please <Link href="/login">login</Link>.
-            </Title>
+      {isLoading ? (
+        <Center mt="xl">
+          <Loader size="xl" />
+        </Center>
+      ) : (
+        <Container size="xl">
+          <div style={{ display: `${userState ? "block" : "none"}` }}>
+            <Center>
+              <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+                <SegmentedControl
+                  fullWidth
+                  orientation="vertical"
+                  value={track}
+                  onChange={setTrack}
+                  data={tracks}
+                />
+              </MediaQuery>
+              <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+                <SegmentedControl
+                  value={track}
+                  onChange={setTrack}
+                  data={tracks}
+                />
+              </MediaQuery>
+            </Center>
+            {filteredModules?.map((module: any) => (
+              <div key={`outer-div-${module.id}`}>
+                <Module key={`module-${module.id}`} title={module.title} />
+                {lessons?.map(
+                  (lesson) =>
+                    lesson.lesson.module_id === module.id && (
+                      <Lesson
+                        key={`lesson-${lesson.lesson.id}`}
+                        lessonId={lesson.lesson.id}
+                        title={lesson.lesson.title}
+                        description={lesson.lesson.description}
+                        source={lesson.lesson.source}
+                        url={lesson.lesson.url}
+                        thumbnailURL={lesson.thumbnailURL}
+                        toggleCompleted={toggleCompleted}
+                        isCompleted={lesson.lesson.is_completed}
+                      />
+                    )
+                )}
+              </div>
+            ))}
           </div>
-        </div>
-      </Container>
+          <div style={{ display: `${userState ? "none" : "block"}` }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                src="/images/door.jpg"
+                width={400}
+                alt="watercolor door with turnkey lock"
+              />
+              <Title order={2}>
+                Please <Link href="/login">login</Link>.
+              </Title>
+            </div>
+          </div>
+        </Container>
+      )}
     </>
   );
 };

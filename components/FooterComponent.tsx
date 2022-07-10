@@ -104,7 +104,7 @@ const FooterComponent = () => {
               color="dark-blue"
               className={classes.joinUsButton}
             >
-              Join Us
+              Login
             </Button>
           </Link>
         </div>
@@ -112,8 +112,6 @@ const FooterComponent = () => {
       <div className={classes.links}>
         <Link href="/">Home</Link>
         <Link href="/learn">Learn</Link>
-        <Link href="/login">Login</Link>
-        <Link href="/aboutus">About Us</Link>
       </div>
       <div className={classes.copyright}>
         <p>© {currentYear} Tech4All</p>
