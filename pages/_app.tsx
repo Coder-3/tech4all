@@ -311,6 +311,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   Learn
                 </Button>
               </Link>
+              <Link href="/aboutus">
+                <Button
+                  variant="subtle"
+                  component="a"
+                  onClick={() => setOpened(!opened)}
+                >
+                  About Us
+                </Button>
+              </Link>
             </Navbar>
           }
         >
