@@ -114,9 +114,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const [opened, setOpened] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const supabaseUser = supabase.auth.user();
+
   useEffect(() => {
     setUser(supabaseUser);
   }, [supabaseUser]);
+
+  const handleSignout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
 
   return (
     <>
@@ -244,16 +250,26 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 </MediaQuery>
                 <div className={classes.links}>
                   <Link href="/learn">Learn</Link>
-                  <Link href="/login">Login</Link>
                 </div>
                 {user?.email ? (
                   <div className={classes.joinUsButtonDesktop}>
-                    <Text>Logged in as {user.email}</Text>
+                    <Button
+                      className={classes.joinUsButton}
+                      onClick={handleSignout}
+                    >
+                      Sign Out
+                    </Button>
                   </div>
                 ) : (
                   <div className={classes.joinUsButtonDesktop}>
-                    <Button color="dark-blue" className={classes.joinUsButton}>
-                      Join Us
+                    <Button
+                      color="dark-blue"
+                      component="a"
+                      className={classes.joinUsButton}
+                      href="/login"
+                      style={{ fontSize: "14px" }}
+                    >
+                      Login
                     </Button>
                   </div>
                 )}
@@ -266,22 +282,26 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               width={{ base: "100%", md: 0 }}
               hidden={!opened}
             >
-              {user?.email ? (
-                <Text>Logged in as {user.email}</Text>
-              ) : (
-                <Button color="dark-blue" className={classes.joinUsButton}>
-                  Join Us
-                </Button>
-              )}
-              <Link href="/login">
+              {user ? (
                 <Button
-                  variant="subtle"
+                  className={classes.joinUsButton}
+                  onClick={() => {
+                    handleSignout();
+                    setOpened(false);
+                  }}
+                >
+                  Sign out
+                </Button>
+              ) : (
+                <Button
+                  className={classes.joinUsButton}
                   component="a"
-                  onClick={() => setOpened(!opened)}
+                  href="/login"
+                  style={{ fontSize: "14px" }}
                 >
                   Login
                 </Button>
-              </Link>
+              )}
               <Link href="/learn" passHref>
                 <Button
                   variant="subtle"
