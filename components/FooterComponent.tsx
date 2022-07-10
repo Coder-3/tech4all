@@ -111,6 +111,7 @@ const FooterComponent = () => {
       </div>
       <div className={classes.links}>
         <Link href="/">Home</Link>
+        <Link href="/dashboard">Learn</Link>
         <Link href="/learn">Learn</Link>
         <Link href="/aboutus">About Us</Link>
         <Link href="/blog">Blog</Link>

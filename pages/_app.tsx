@@ -249,6 +249,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   />
                 </MediaQuery>
                 <div className={classes.links}>
+                  <Link href="/dashboard">Dashboard</Link>
                   <Link href="/learn">Learn</Link>
                   <Link href="/blog">Blog</Link>
                   <Link href="/aboutus">About Us</Link>
@@ -304,6 +305,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   Login
                 </Button>
               )}
+              <Link href="/dashboard" passHref>
+                <Button
+                  variant="subtle"
+                  component="a"
+                  onClick={() => setOpened(!opened)}
+                >
+                  Dashboard
+                </Button>
+              </Link>
               <Link href="/learn" passHref>
                 <Button
                   variant="subtle"
