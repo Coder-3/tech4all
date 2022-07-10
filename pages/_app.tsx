@@ -250,8 +250,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 </MediaQuery>
                 <div className={classes.links}>
                   <Link href="/learn">Learn</Link>
-                  <Link href="/blog">Learn</Link>
-                  <Link href="/aboutus">Learn</Link>
+                  <Link href="/blog">Blog</Link>
+                  <Link href="/aboutus">About Us</Link>
                 </div>
                 {user?.email ? (
                   <div className={classes.joinUsButtonDesktop}>
@@ -319,7 +319,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   component="a"
                   onClick={() => setOpened(!opened)}
                 >
-                  About Us
+                  Blog
                 </Button>
               </Link>
               <Link href="/aboutus">
