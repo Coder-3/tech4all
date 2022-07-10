@@ -1,4 +1,11 @@
-import { Center, Container, Image, Loader, Title } from "@mantine/core";
+import {
+  Center,
+  Container,
+  Image,
+  Loader,
+  SegmentedControl,
+  Title,
+} from "@mantine/core";
 import { User } from "@supabase/supabase-js";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -11,11 +18,48 @@ import supabase from "../utils/supabase";
 const Learn: NextPage = ({}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [lessonsAndThumbnails, setLessonsAndThumbnails] = useState([]);
-  const [modules, setModules] = useState([]);
+  const [modules, setModules] = useState<Array<any>>([]);
+  const [filteredModules, setFilteredModules] = useState<Array<any>>([]);
   const [lessonsUsers, setLessonsUsers] = useState([]);
   const [lessons, setLessons] = useState<Array<any>>();
   const [userState, setUserState] = useState<User | null>(null);
-  const sortedModules = modules.sort((a: any, b: any) => a.order - b.order);
+  const [track, setTrack] = useState("1");
+  const [tracks, setTracks] = useState<Array<any>>([{ label: "1", value: "1" }]);
+
+  const getTracks = async () => {
+    try {
+      setIsLoading(true);
+      const { data, error } = await supabase.from("tracks").select("*");
+      if (data) {
+        const t = data.map((track: any) => {
+          return {
+            label: track.title,
+            value: track.id.toString(),
+          };
+        });
+        setTracks(t);
+      }
+      if (error) throw error;
+    } catch (error: any) {
+      alert(error.error_description || error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const filtModules = modules.filter(
+      (module) => module.track_id === Number(track)
+    );
+    const sortedFiltModules = filtModules.sort(
+      (a: any, b: any) => a.order - b.order
+    );
+    setFilteredModules(sortedFiltModules);
+  }, [modules, track]);
+
+  useEffect(() => {
+    getTracks();
+  }, []);
 
   const getLessons = async () => {
     setIsLoading(true);
@@ -120,8 +164,11 @@ const Learn: NextPage = ({}) => {
         </Center>
       ) : (
         <Container size="xl">
+          <Center>
+            <SegmentedControl value={track} onChange={setTrack} data={tracks} />
+          </Center>
           <div style={{ display: `${userState ? "block" : "none"}` }}>
-            {sortedModules?.map((module: any) => (
+            {filteredModules?.map((module: any) => (
               <div key={`outer-div-${module.id}`}>
                 <Module key={`module-${module.id}`} title={module.title} />
                 {lessons?.map(
