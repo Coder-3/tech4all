@@ -1,15 +1,4 @@
-import {
-  Anchor,
-  AppShell,
-  Button,
-  Container,
-  Header,
-  Navbar,
-  Image,
-  Stack,
-  Title,
-} from "@mantine/core";
-import { UpdateIcon } from "@radix-ui/react-icons";
+import { Container, Image, Title } from "@mantine/core";
 import { User } from "@supabase/supabase-js";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -19,51 +8,54 @@ import Lesson from "../components/Lesson";
 import Module from "../components/Module";
 import supabase from "../utils/supabase";
 
-export const getServerSideProps = async () => {
-  const { data: lessons, error: e1 } = await supabase
-    .from("lessons")
-    .select("*");
-  const { data: modules, error: e2 } = await supabase
-    .from("modules")
-    .select("*");
+const Learn: NextPage = ({}) => {
+  const [lessonsAndThumbnails, setLessonsAndThumbnails] = useState([]);
+  const [modules, setModules] = useState([]);
+  const [lessonsUsers, setLessonsUsers] = useState([]);
+  const [lessons, setLessons] = useState<Array<any>>();
+  const [userState, setUserState] = useState<User | null>(null);
+  const sortedModules = modules.sort((a: any, b: any) => a.order - b.order);
 
-  const lessonsAndThumbnails = lessons?.map((lesson) => {
-    const { publicURL, error: e3 } = supabase.storage
-      .from("images")
-      .getPublicUrl(lesson.thumbnail);
+  const getLessons = async () => {
+    const { data: lessons, error: e1 } = await supabase
+      .from("lessons")
+      .select("*");
+    const { data: modules, error: e2 } = await supabase
+      .from("modules")
+      .select("*");
+
+    const lessonsAndThumbnails = lessons?.map((lesson) => {
+      const { publicURL, error: e3 } = supabase.storage
+        .from("images")
+        .getPublicUrl(lesson.thumbnail);
+      return {
+        lesson,
+        thumbnailURL: publicURL,
+      };
+    });
+
+    const { data: lessonsUsers, error: e4 } = await supabase
+      .from("lessons_users")
+      .select("*");
+
     return {
-      lesson,
-      thumbnailURL: publicURL,
-    };
-  });
-
-  const { data: lessonsUsers, error: e4 } = await supabase
-    .from("lessons_users")
-    .select("*");
-
-  return {
-    props: {
       lessonsAndThumbnails,
       modules,
       lessonsUsers,
-    },
+    };
   };
-};
 
-interface Props {
-  lessonsAndThumbnails: Array<any>;
-  modules: Array<any>;
-  lessonsUsers: Array<any>;
-}
-
-const Learn: NextPage<Props> = ({
-  lessonsAndThumbnails,
-  modules,
-  lessonsUsers,
-}) => {
-  const [lessons, setLessons] = useState<Array<any>>();
-  const [userState, setUserState] = useState<User | null>(null);
-  const sortedModules = modules.sort((a, b) => a.order - b.order);
+  useEffect(() => {
+    getLessons().then((res: any) => {
+      if (res) {
+        setLessonsAndThumbnails(res.lessonsAndThumbnails);
+        setModules(res.modules);
+        setLessonsUsers(res.lessonsUsers);
+      } else {
+        console.error("error getting the lessons");
+      }
+    });
+  }, []);
 
   const user = supabase.auth.user();
   useEffect(() => {
@@ -72,13 +64,13 @@ const Learn: NextPage<Props> = ({
 
   useEffect(() => {
     if (userState) {
-      const formattedLessons = lessonsAndThumbnails.map((lesson) => {
+      const formattedLessons = lessonsAndThumbnails.map((lesson: any) => {
         return {
           ...lesson,
           lesson: {
             ...lesson.lesson,
             is_completed: lessonsUsers.some(
-              (lessonUser) =>
+              (lessonUser: any) =>
                 lessonUser.lesson_id === lesson.lesson.id &&
                 lessonUser.user_id === userState.id &&
                 lessonUser.is_completed
@@ -121,7 +113,7 @@ const Learn: NextPage<Props> = ({
       </Head>
       <Container size="xl">
         <div style={{ display: `${userState ? "block" : "none"}` }}>
-          {sortedModules?.map((module) => (
+          {sortedModules?.map((module: any) => (
             <div key={`outer-div-${module.id}`}>
               <Module key={`module-${module.id}`} title={module.title} />
               {lessons?.map(
