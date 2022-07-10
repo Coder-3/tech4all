@@ -13,12 +13,15 @@ import {
   Container,
 } from "@mantine/core";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const LoginPage: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [operationType, setOperationType] = useState("login");
+
+  const router = useRouter();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -30,6 +33,7 @@ const LoginPage: NextPage = () => {
       alert(error.error_description || error.message);
     } finally {
       setLoading(false);
+      router.push("/");
     }
   };
 
