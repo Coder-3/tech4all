@@ -3,6 +3,7 @@ import {
   Container,
   Image,
   Loader,
+  MediaQuery,
   SegmentedControl,
   Title,
 } from "@mantine/core";
@@ -165,7 +166,12 @@ const Learn: NextPage = ({}) => {
       ) : (
         <Container size="xl">
           <Center>
-            <SegmentedControl value={track} onChange={setTrack} data={tracks} />
+            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            <SegmentedControl fullWidth orientation="vertical" value={track} onChange={setTrack} data={tracks} />
+            </MediaQuery>
+            <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+              <SegmentedControl value={track} onChange={setTrack} data={tracks} />
+            </MediaQuery>
           </Center>
           <div style={{ display: `${userState ? "block" : "none"}` }}>
             {filteredModules?.map((module: any) => (
