@@ -25,7 +25,9 @@ const Learn: NextPage = ({}) => {
   const [lessons, setLessons] = useState<Array<any>>();
   const [userState, setUserState] = useState<User | null>(null);
   const [track, setTrack] = useState("1");
-  const [tracks, setTracks] = useState<Array<any>>([{ label: "1", value: "1" }]);
+  const [tracks, setTracks] = useState<Array<any>>([
+    { label: "1", value: "1" },
+  ]);
 
   const getTracks = async () => {
     try {
@@ -165,15 +167,25 @@ const Learn: NextPage = ({}) => {
         </Center>
       ) : (
         <Container size="xl">
-          <Center>
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-            <SegmentedControl fullWidth orientation="vertical" value={track} onChange={setTrack} data={tracks} />
-            </MediaQuery>
-            <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-              <SegmentedControl value={track} onChange={setTrack} data={tracks} />
-            </MediaQuery>
-          </Center>
           <div style={{ display: `${userState ? "block" : "none"}` }}>
+            <Center>
+              <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+                <SegmentedControl
+                  fullWidth
+                  orientation="vertical"
+                  value={track}
+                  onChange={setTrack}
+                  data={tracks}
+                />
+              </MediaQuery>
+              <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+                <SegmentedControl
+                  value={track}
+                  onChange={setTrack}
+                  data={tracks}
+                />
+              </MediaQuery>
+            </Center>
             {filteredModules?.map((module: any) => (
               <div key={`outer-div-${module.id}`}>
                 <Module key={`module-${module.id}`} title={module.title} />
