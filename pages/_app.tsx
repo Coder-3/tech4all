@@ -245,6 +245,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 <div className={classes.links}>
                   <Link href="/learn">Learn</Link>
                   <Link href="/login">Login</Link>
+                  <Link href="/aboutus">About us</Link>
                 </div>
                 {user?.email ? (
                   <div className={classes.joinUsButtonDesktop}>
@@ -289,6 +290,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   onClick={() => setOpened(!opened)}
                 >
                   Learn
+                </Button>
+              </Link>
+              <Link href="/aboutus">
+                <Button
+                  variant="subtle"
+                  component="a"
+                  onClick={() => setOpened(!opened)}
+                >
+                  About Us
                 </Button>
               </Link>
             </Navbar>

@@ -113,6 +113,7 @@ const FooterComponent = () => {
         <Link href="/">Home</Link>
         <Link href="/learn">Learn</Link>
         <Link href="/login">Login</Link>
+        <Link href="/aboutus">About Us</Link>
       </div>
       <div className={classes.copyright}>
         <p>© {currentYear} Tech4All</p>
