@@ -6,7 +6,6 @@ import {
   Grid,
   Title,
   Image,
-  Button,
   Anchor,
   Text,
   Center,
@@ -24,33 +23,49 @@ export default function BlogPage({ blogPosts }: { blogPosts: any }) {
             Blog
           </Title>
         </Center>
-        <Grid grow>
+        <Grid grow gutter="xl">
           {blogPosts.map(
             ({
               id,
-              date,
+              readableDate,
+              author,
               title,
               thumb,
               excerpt,
+              readingTime,
             }: {
               id: any;
-              date: any;
+              readableDate: any;
+              author: string;
               title: any;
               thumb: any;
               excerpt: any;
+              readingTime: string;
             }) => (
               <Grid.Col span={6} key={id}>
                 <div
                   style={{ width: "420px", maxWidth: "90vw", margin: "auto" }}
                 >
-                    <Image radius="md" src={thumb} height={200} mb="xs" alt="" />
+                  <Image
+                    radius="md"
+                    src={thumb}
+                    height={200}
+                    alt=""
+                    style={{ marginBottom: "4px" }}
+                  />
                   <Link href={`/posts/${id}`} passHref>
                     <Anchor underline={false} size="xl">
                       {title}
                     </Anchor>
                   </Link>
                   <Text>{excerpt}</Text>
-                  <br />
+                  <div
+                    style={{ display: "flex", gap: "6px", marginTop: "4px" }}
+                  >
+                    <Text size="sm">{author} |</Text>
+                    <Text size="sm">{readableDate} |</Text>
+                    <Text size="sm">{readingTime}</Text>
+                  </div>
                 </div>
               </Grid.Col>
             )

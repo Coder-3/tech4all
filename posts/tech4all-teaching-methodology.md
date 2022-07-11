@@ -1,8 +1,11 @@
 ---
 title: "Tech4All Teaching Methdology"
 excerpt: "How Tech4All leverages the best educational techniques to optimise learner outcomes"
-date: "2022-05-04"
+date: "2022-04-18"
+readableDate: "18 April 2022"
 thumb: "images/spacedRepetition.png"
+author: "Cédric Quenette"
+readingTime: "2 mins"
 ---
 
 ## Bloom's two-sigma problem

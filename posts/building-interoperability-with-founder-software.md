@@ -1,8 +1,11 @@
 ---
 title: "Building Interoperability with Founder Software"
 excerpt: "Encouraging Founders and Base Team to utilise Founder Software to build interoperability"
-date: "2022-07-06"
+date: "2022-07-09"
+readableDate: "9 July 2022"
 thumb: "images/t4aFF.png"
+author: "Cédric Quenette"
+readingTime: "2 mins"
 ---
 
 We can make use of software created by our Founders within the Tech4All ecosystem. For example, if one of our Founders is building a note-taking application, we can recommend our Learners to utilise the app for their learning. Furthermore, we can fork the code and integrate features directly in our edu-tech platform.

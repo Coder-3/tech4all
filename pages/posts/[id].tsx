@@ -1,6 +1,6 @@
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Head from "next/head";
-import { Container } from "@mantine/core";
+import { Avatar, Container, Text, Title } from "@mantine/core";
 
 import { createStyles } from "@mantine/core";
 
@@ -8,24 +8,62 @@ const useStyles = createStyles((theme) => ({
   postContainer: {
     img: {
       display: "flex",
-      width: "60vw",
-      [theme.fn.smallerThan("md")]: {
-        width: "100%",
+      width: "40vw",
+      [theme.fn.smallerThan("xl")]: {
+        width: "50vw",
       },
-      margin: "auto"
+
+      [theme.fn.smallerThan("md")]: {
+        width: "90%",
+      },
+      margin: "auto",
     },
+  },
+
+  detailsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    width: "300px",
   },
 }));
 
 export default function Post({ postData }: { postData: any }) {
   const { classes } = useStyles();
+  const authorInitials = postData.author
+    .split(" ")
+    .map((name: string) => name[0])
+    .join("");
   return (
     <>
       <Head>
         <title>{postData.title}</title>
       </Head>
-      <Container>
-        <h1>{postData.title}</h1>
+      <Container size={800}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "10px",
+          }}
+        >
+          <div style={{ width: "50px" }}>
+            <Avatar color="blue" radius="xl">
+              {authorInitials}
+            </Avatar>
+          </div>
+          <div className={classes.detailsContainer}>
+            <div>
+              <Text>{postData.author}</Text>
+            </div>
+            <div style={{ display: "flex" }}>
+              <Text size="sm">{postData.readableDate} |</Text>
+              <Text size="sm" style={{ marginLeft: "4px" }}>
+                {postData.readingTime}
+              </Text>
+            </div>
+          </div>
+        </div>
+        <Title order={1}>{postData.title}</Title>
         <div
           className={classes.postContainer}
           dangerouslySetInnerHTML={{ __html: postData.contentHtml }}

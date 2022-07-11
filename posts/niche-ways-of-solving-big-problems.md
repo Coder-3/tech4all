@@ -1,8 +1,11 @@
 ---
 title: "Niche Ways of Solving Big Problems"
 excerpt: "Solving niche problems avoids competition and reduces complexity. General problems are more meaningful and in high demand. Solving general problems in a niche way combines the benefits of solving general problems and avoids its pitfalls."
-date: "2022-05-04"
+date: "2022-05-14"
+readableDate: "14 May 2022"
 thumb: "images/spheres.png"
+author: "Cédric Quenette"
+readingTime: "2 mins"
 ---
 
 Indie hackers always try to find niche problems to solve because it has less competition due to the low market size having less of an incentive for the big players to try and address the problems. However, an alternative approach is never discussed which is starting with the big general problems and finding niche ways to solve them.
